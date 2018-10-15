@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         WeatherMap weather = new WeatherMap();
         weather.getJSON("Adelaide");
+        //HEre
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         mFusedLocationClient.getLastLocation()
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.e("Longitude", Double.toString(location.getLongitude()));
                         }
                     }
-                });
+                }); //Here
     }
 
     @Override

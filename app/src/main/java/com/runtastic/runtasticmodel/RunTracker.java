@@ -15,7 +15,9 @@ public class RunTracker extends RealmObject {
     private int uid;
     private double timeTaken;
     private double averageSpeed;
+    private double maxSpeed;
     private double distance;
+    private double estimatedCalories;
 
     private String date;
     private String coords;
@@ -37,6 +39,12 @@ public class RunTracker extends RealmObject {
 
     public void setDat(String _date){ date = _date;}
     public String getDat() { return date;}
+
+    public void setMaxSpeed(double _speed) { maxSpeed = _speed; }
+    public double getMaxSpeed(){ return maxSpeed; }
+
+    public void setEstimatedCalories(double _calories) { estimatedCalories = _calories; }
+    public double getEstimatedCalories() { return estimatedCalories; }
 
     public void addCoords(List<LatLong> _coords){
         if(!_coords.isEmpty()) {
