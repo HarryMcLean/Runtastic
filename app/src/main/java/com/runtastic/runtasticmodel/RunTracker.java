@@ -12,11 +12,28 @@ public class RunTracker extends RealmObject {
     @PrimaryKey
     private int rid;
 
+    private int uid;
+    private double timeTaken;
+    private double averageSpeed;
+    private double distance;
+
     private String date;
     private String coords;
 
     public void setRid(int _rid){ rid = _rid;}
     public int getRid() { return rid;}
+
+    public void setUid(int _uid) { uid = _uid; }
+    public int getUid() { return uid; }
+
+    public void setTimeTaken(double _time) { timeTaken = _time;}
+    public double getTimeTaken() { return timeTaken; }
+
+    public void setAverageSpeed(double _speed) { averageSpeed = _speed;}
+    public double getAverageSpeed() { return averageSpeed;}
+
+    public void setDistance(double _distance) { distance = _distance; }
+    public double getDistance() { return distance; }
 
     public void setDat(String _date){ date = _date;}
     public String getDat() { return date;}
