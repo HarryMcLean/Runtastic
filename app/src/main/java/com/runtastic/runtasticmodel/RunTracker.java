@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.StringTokenizer;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -12,7 +13,7 @@ public class RunTracker extends RealmObject {
     @PrimaryKey
     private int rid;
 
-    private int uid;
+    private User user;
     private double timeTaken;
     private double averageSpeed;
     private double maxSpeed;
@@ -20,13 +21,13 @@ public class RunTracker extends RealmObject {
     private double estimatedCalories;
 
     private String date;
-    private String coords;
+    private RealmList<LatLong> coords = new RealmList<>();
 
     public void setRid(int _rid){ rid = _rid;}
     public int getRid() { return rid;}
 
-    public void setUid(int _uid) { uid = _uid; }
-    public int getUid() { return uid; }
+    public void setUser(User _user) { user = _user; }
+    public User getUser() { return user; }
 
     public void setTimeTaken(double _time) { timeTaken = _time;}
     public double getTimeTaken() { return timeTaken; }
@@ -46,6 +47,13 @@ public class RunTracker extends RealmObject {
     public void setEstimatedCalories(double _calories) { estimatedCalories = _calories; }
     public double getEstimatedCalories() { return estimatedCalories; }
 
+    public void addCoord(LatLong _coord) { coords.add(_coord); }
+    public void addCoords(RealmList<LatLong> _coords) { coords = _coords; }
+    public RealmList<LatLong> getCoords() { return coords; }
+
+    public RunTracker(){    }
+
+    /*
     public void addCoords(List<LatLong> _coords){
         if(!_coords.isEmpty()) {
             ListIterator<LatLong> itr = _coords.listIterator();
@@ -54,7 +62,9 @@ public class RunTracker extends RealmObject {
             }
         }
     }
+    */
 
+    /*
     public List<LatLong> getCoords(){
         StringTokenizer tokenizer = new StringTokenizer(coords, ";");
         List<LatLong> retCoords = new ArrayList<LatLong>();
@@ -63,5 +73,6 @@ public class RunTracker extends RealmObject {
         }
         return retCoords;
     }
+    */
 
 }

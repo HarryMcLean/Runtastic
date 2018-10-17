@@ -31,7 +31,23 @@ public class MainActivity extends AppCompatActivity {
 
         WeatherMap weather = new WeatherMap();
         weather.getJSON("Adelaide");
-        //HEre
+
+        RunTracker runtrack = new RunTracker();
+        runtrack.setRid(1234);
+        LatLong lat1 = new LatLong(1.1, 1.1);
+        LatLong lat2 = new LatLong( 1.2, 1.2);
+        LatLong lat3 = new LatLong( 1.2, 1.3);
+
+        runtrack.addCoord(lat1);
+        runtrack.addCoord(lat2);
+        runtrack.addCoord(lat3);
+
+        rControl.addRunTrack(runtrack);
+
+        RunTracker runs = rControl.getRunTrack(1234);
+
+        Log.e("Runtrack coord", runs.getCoords().first().toString());
+
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         mFusedLocationClient.getLastLocation()
@@ -45,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.e("Longitude", Double.toString(location.getLongitude()));
                         }
                     }
-                }); //Here
+                });
     }
 
     @Override
