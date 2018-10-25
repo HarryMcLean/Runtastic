@@ -14,13 +14,13 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-        android:layout_width="wrap_content"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
-        android:id="@+id/toolbar"
+        android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        android:elevation="4dp"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
 
     <FrameLayout
         android:id="@+id/fragment_container"
