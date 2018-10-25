@@ -1,12 +1,38 @@
+
+
+
+
+
+# JetBrains folders
 *.iml
-.gradle
-/local.properties
-/.idea/caches/build_file_checksums.ser
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
 .idea/assetWizardSettings.xml
-.DS_Store
-/build
+.idea/gradle.xml
+.idea/modules.xml
+.idea/tasks.xml
+.idea/workspace.xml
+
+
+# android studio captures folder
 /captures
+
+# Generated files
+bin/
+gen/
+out/
+/build
+
+# Gradle files
+.gradle/
+build/
+#previously witten as
+.gradle
+
+# Local configuration file (sdk path, etc)
+local.properties
+# previously witten as
+/local.properties
+
+
+# other
+.DS_Store
 .externalNativeBuild
