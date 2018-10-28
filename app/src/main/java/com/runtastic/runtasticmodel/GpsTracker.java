@@ -14,7 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class GpsTracker extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+            // REMOVED ...implements NavigationView.OnNavigationItemSelectedListener
+public class GpsTracker extends AppCompatActivity {
 
     private DrawerLayout drawer;
 
@@ -23,19 +24,20 @@ public class GpsTracker extends AppCompatActivity implements NavigationView.OnNa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gps_tracker);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+/*        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        toggle.syncState();*/
     }
 
-    @Override
+/*    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Intent openGPS = new Intent(this,GpsTracker.class);
         switch(menuItem.getItemId()){
@@ -72,5 +74,5 @@ public class GpsTracker extends AppCompatActivity implements NavigationView.OnNa
             super.onBackPressed();
         }
         super.onBackPressed();
-    }
+    }*/
 }
