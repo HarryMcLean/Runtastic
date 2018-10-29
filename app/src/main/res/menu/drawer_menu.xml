@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ShowIn="naviagtion_view">
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_record"
+            android:icon="@drawable/ic_gps_tracking"
+            android:title="Start Workout"/>
+        <item android:id="@+id/nav_statistics"
+            android:icon="@drawable/ic_statistics"
+            android:title="Activity Statistics"/>
+        <item android:id="@+id/nav_diary"
+            android:icon="@drawable/ic_diary"
+            android:title="Diary"/>
+        <item android:id="@+id/nav_calendar"
+            android:icon="@drawable/ic_calendar"
+            android:title="Calendar"/>
+        <item android:id="@+id/nav_stopwatch"
+            android:icon="@drawable/ic_timer"
+            android:title="Stopwatch"/>
+        <item android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="Logout"/>
+    </group>
+</menu>

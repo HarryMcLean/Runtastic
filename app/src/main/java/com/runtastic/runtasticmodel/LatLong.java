@@ -2,7 +2,9 @@ package com.runtastic.runtasticmodel;
 
 import java.util.StringTokenizer;
 
-public class LatLong {
+import io.realm.RealmObject;
+//TEST: testing git branching
+public class LatLong extends RealmObject {
     private Double latitude;
     private Double longitude;
 
