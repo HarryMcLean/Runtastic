@@ -1,4 +1,10 @@
 package com.runtastic.runtasticmodel;
+/********************************************
+ * User.java
+ * S3427251 - Aaron Nettelbeck 10/18
+ * For runtastic project
+ * Realm database table object - defines user data
+ */
 
 import java.util.Calendar;
 import io.realm.RealmObject;
@@ -11,6 +17,7 @@ public class User extends RealmObject {
     private String email;
     private String dob;
     private String password;
+    private boolean loggedIn;
 
     public User(){
         this.uid = 0;
@@ -45,4 +52,11 @@ public class User extends RealmObject {
     public void setEmail(String _email) { email = _email; }
 
     public void setPassword(String _password) { password = _password; }
+
+    public String getPassword() { return password; }
+
+    public void setLoggedIn(){ loggedIn = true;    }
+    public void setLoggedOut() { loggedIn = false; }
+
+    public boolean getLoggedIn() { return loggedIn; }
 }

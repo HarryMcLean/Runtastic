@@ -1,5 +1,12 @@
 package com.runtastic.runtasticmodel;
 
+/********************************************
+ * RealmController.java
+ * S3427251 - Aaron Nettelbeck 10/18
+ * Based on code example for openweathermap api
+ * TODO: further refinement for project.
+ */
+
 import android.os.AsyncTask;
 import android.util.Log;
 

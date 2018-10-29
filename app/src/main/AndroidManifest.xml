@@ -12,13 +12,18 @@
         android:theme="@style/AppTheme"
         android:name=".runtasticmodel"
         android:usesCleartextTraffic="true">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".SplashActivity" android:theme="@style/SplashTheme">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+        <activity android:name=".RuntasticProgressBar" android:theme="@style/LoginTheme"/>
+
+        <activity android:name=".SignInPage" android:theme="@style/LoginTheme"/>
+
+        <activity android:name=".AccountCreate" android:theme="@style/LoginTheme" />
     </application>
 
 </manifest>

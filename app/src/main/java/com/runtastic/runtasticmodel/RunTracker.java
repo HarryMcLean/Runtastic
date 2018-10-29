@@ -1,5 +1,12 @@
 package com.runtastic.runtasticmodel;
 
+/********************************************
+ * RunTracker.java
+ * S3427251 - Aaron Nettelbeck 10/18
+ * For runtastic project
+ * Realm database table object - defines saved run data
+ */
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
