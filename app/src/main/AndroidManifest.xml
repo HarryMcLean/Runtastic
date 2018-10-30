@@ -24,6 +24,8 @@
         <activity android:name=".SignInPage" android:theme="@style/LoginTheme"/>
 
         <activity android:name=".AccountCreate" android:theme="@style/LoginTheme" />
+
+        <activity android:name=".SideNavBar" android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

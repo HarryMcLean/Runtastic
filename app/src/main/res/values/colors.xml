@@ -5,4 +5,5 @@
     <color name="colorAccent">#9E9E9E</color>
     <color name="progressBarBackground">#757575</color>
     <color name="progressBarForeground">#9E9E9E</color>
+    <color name="DevText">#d000ff</color>
 </resources>

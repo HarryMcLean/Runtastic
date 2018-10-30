@@ -9,6 +9,7 @@ package com.runtastic.runtasticmodel;
  */
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -40,5 +41,12 @@ public class RuntasticProgressBar extends AppCompatActivity {
 
         //close realm link
         rControl.realmClose();
+
+        //switch to the new view
+        Intent intent = new Intent(RuntasticProgressBar.this, SideNavBar.class);
+        startActivity(intent);
+
+        //this clears memory?
+        finish();
     }
 }
