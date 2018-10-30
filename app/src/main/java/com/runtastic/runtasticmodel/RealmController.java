@@ -66,10 +66,11 @@ public class RealmController {
     public boolean checkUser(String _username){
         try{
             User _user = realm.where(User.class).equalTo("email", _username).findFirst();
+            Log.e("Controller, CheckUser()", _user.getEmail());
             return true;
         }
         catch(Exception e){
-            Log.e("Realm Exception", "User doesnt exist.");
+            Log.e("Controller: CheckUser()", "User doesnt exist.");
             return false;
         }
     }
@@ -79,7 +80,7 @@ public class RealmController {
         //check the database for the first user with logged in
         //necessitates calling clearLoggedInUsers() below when restarting app as it is saved in the file
         User _user = realm.where(User.class).equalTo("loggedIn", true).findFirst();
-        Log.e("Testing", "Logged in user found?");
+        Log.e("Controller", "Logged in user found.");
         return _user.getUid();
     }
 
@@ -88,7 +89,7 @@ public class RealmController {
         realm.beginTransaction();
         _user.setLoggedIn();
         realm.commitTransaction();
-        Log.e("Testing", "Logged in user set?");
+        Log.e("Controller", "Logged in user set");
     }
 
     //Finds all the logged in users and logs them out if it was missed last run, allows getLoggedInUser()

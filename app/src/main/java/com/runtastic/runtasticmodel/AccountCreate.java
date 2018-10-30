@@ -41,7 +41,7 @@ public class AccountCreate extends AppCompatActivity {
                     Log.e("REX", "Password match?");
                     //password matches
                     //check if user already exists
-                    //if(!rControl.checkUser(username.getText().toString())){
+                    if(!rControl.checkUser(username.getText().toString())){
                         //todo: code for checking birthday value
                         //user doesn't exist
                         //add user
@@ -58,11 +58,11 @@ public class AccountCreate extends AppCompatActivity {
 
                         //this clears memory?
                         finish();
-                    //}
-                    //else
-                    //{
+                    }
+                    else
+                    {
                         //todo: code for prompt about user already exists
-                    //}
+                    }
                 }
                 else
                 {
