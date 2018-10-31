@@ -12,15 +12,20 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+
 
 public class SideNavBar extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+    private FusedLocationProviderClient mFusedLocationClient;
     private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_side_nav_bar);
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
