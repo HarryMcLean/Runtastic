@@ -1,4 +1,4 @@
-package com.runtastic.runtasticmodel;
+package com.runtastic.runtasticmodel.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,13 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class CalendarFragment extends Fragment {
+import com.runtastic.runtasticmodel.R;
+
+public class StopwatchFragment extends Fragment {
 
     View myView;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        myView = inflater.inflate(R.layout.calendar_layout,container,false);
+        myView = inflater.inflate(R.layout.stopwatch_layout,container,false);
         return myView;
     }
 }

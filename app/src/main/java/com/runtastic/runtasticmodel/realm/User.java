@@ -1,4 +1,4 @@
-package com.runtastic.runtasticmodel;
+package com.runtastic.runtasticmodel.realm;
 /********************************************
  * User.java
  * S3427251 - Aaron Nettelbeck 10/18

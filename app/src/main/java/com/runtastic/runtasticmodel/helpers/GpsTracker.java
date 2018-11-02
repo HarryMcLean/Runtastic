@@ -1,4 +1,4 @@
-package com.runtastic.runtasticmodel;
+package com.runtastic.runtasticmodel.helpers;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -14,7 +14,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-            // REMOVED ...implements NavigationView.OnNavigationItemSelectedListener
+import com.runtastic.runtasticmodel.R;
+
+// REMOVED ...implements NavigationView.OnNavigationItemSelectedListener
 public class GpsTracker extends AppCompatActivity {
 
     private DrawerLayout drawer;
