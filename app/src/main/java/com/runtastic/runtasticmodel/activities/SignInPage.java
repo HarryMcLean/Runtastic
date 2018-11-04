@@ -43,15 +43,6 @@ public class SignInPage extends AppCompatActivity {
         //open the realm and controller.
         rControl = new RealmController();
 
-        //This log checks if the user added to the realm in the previous view has persisted to this view
-        //even though the realm was closed only for testing - to remove later.
-        try {
-            Log.e("Test", rControl.getUser(12347).getEmail());
-        }
-        catch(Exception e){
-            Log.e("Realm Exception", "User doesn't exist");
-        }
-
         //Beginning of code to handle log in details.
         //Link to the button on the view
         final Button button = findViewById(R.id.button);

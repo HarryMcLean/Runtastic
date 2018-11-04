@@ -7,6 +7,8 @@ package com.runtastic.runtasticmodel.realm;
  */
 
 import java.util.Calendar;
+
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
@@ -18,6 +20,8 @@ public class User extends RealmObject {
     private String dob;
     private String password;
     private boolean loggedIn;
+
+    private RealmList<RunTracker> runtracks = new RealmList<>();
 
     public User(){
         this.uid = 0;
@@ -59,4 +63,7 @@ public class User extends RealmObject {
     public void setLoggedOut() { loggedIn = false; }
 
     public boolean getLoggedIn() { return loggedIn; }
+
+    protected void addRuntrack(RunTracker _inTrack){ runtracks.add(_inTrack); }
+    protected RealmList<RunTracker> getRuntracks() { return runtracks; }
 }

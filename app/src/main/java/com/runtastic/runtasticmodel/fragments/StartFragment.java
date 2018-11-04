@@ -10,6 +10,7 @@ package com.runtastic.runtasticmodel.fragments;
 
         import com.runtastic.runtasticmodel.R;
 
+
 public class StartFragment extends Fragment {
 
     View myView;

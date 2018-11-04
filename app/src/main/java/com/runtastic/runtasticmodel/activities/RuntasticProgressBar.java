@@ -18,7 +18,11 @@ import android.widget.ProgressBar;
 
 import com.runtastic.runtasticmodel.helpers.ProgressBarAnimation;
 import com.runtastic.runtasticmodel.R;
+import com.runtastic.runtasticmodel.realm.LatLong;
 import com.runtastic.runtasticmodel.realm.RealmController;
+import com.runtastic.runtasticmodel.realm.RunTracker;
+
+import io.realm.RealmResults;
 
 
 public class RuntasticProgressBar extends AppCompatActivity {
@@ -41,8 +45,42 @@ public class RuntasticProgressBar extends AppCompatActivity {
         //open realm link
         rControl = new RealmController();
 
-        Log.e("Testing", rControl.getUser(rControl.getLoggedInUser()).getEmail());
+        Log.e("Testing", rControl.getLoggedInUser().getEmail());
 
+        //Example RunTracker use
+        //Either build the runTrack slowly, then save it.
+        RunTracker rt1 = new RunTracker();
+        rt1.setRid(rControl.nextRuntrackId());
+        rt1.setAverageSpeed(25);
+        rt1.setDistance(11);
+        rt1.setDat("123456");
+        rt1.setEstimatedCalories(800);
+        rt1.setTimeTaken(30);
+        LatLong coord1 = new LatLong(25.0, 25.0);
+        rt1.addCoord(coord1);
+        rControl.saveRunTrack(rt1);
+
+        //Or have all the variables and make it in one go
+        RunTracker rt2 = new RunTracker(rControl.nextRuntrackId(), 25.0, 11.0, 744.0, 30.0, 30.0, "123457");
+        LatLong coord2 = new LatLong(30.0, 30.0);
+        rt2.addCoord(coord2);
+        rControl.saveRunTrack(rt2);
+
+        //Once saved you can grab the following stuff
+        //Fastest, longest etc
+        RunTracker rt3 = rControl.getFastestAverage();
+        String string = rt3.getAverageSpeed() + " " + rt3.getRid();
+        Log.e("Testing Fastest Average", string);
+
+        rt3 = rControl.getFastest();
+        string = rt3.getMaxSpeed() + " " + rt3.getRid();
+        Log.e("Testing Max Speed", string);
+
+        rt3 = rControl.getLongest();
+        string = rt3.getDistance() + " " + rt3.getRid();
+        Log.e("Testing Longest Run", string);
+
+        Log.e("Testing Last Run", Double.toString(rControl.getLastRunTrack().getMaxSpeed()));
         //close realm link
         rControl.realmClose();
 

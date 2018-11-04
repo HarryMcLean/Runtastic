@@ -9,13 +9,13 @@ package com.runtastic.runtasticmodel.realm;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
+import io.realm.annotations.LinkingObjects;
 import io.realm.annotations.PrimaryKey;
 
 public class RunTracker extends RealmObject {
     @PrimaryKey
     private int rid;
-
-    private User user;
     private double timeTaken;
     private double averageSpeed;
     private double maxSpeed;
@@ -25,11 +25,11 @@ public class RunTracker extends RealmObject {
     private String date;
     private RealmList<LatLong> coords = new RealmList<>();
 
+    @LinkingObjects("runtracks")
+    private final RealmResults<User> user = null;
+
     public void setRid(int _rid){ rid = _rid;}
     public int getRid() { return rid;}
-
-    public void setUser(User _user) { user = _user; }
-    public User getUser() { return user; }
 
     public void setTimeTaken(double _time) { timeTaken = _time;}
     public double getTimeTaken() { return timeTaken; }
@@ -53,7 +53,17 @@ public class RunTracker extends RealmObject {
     public void addCoords(RealmList<LatLong> _coords) { coords = _coords; }
     public RealmList<LatLong> getCoords() { return coords; }
 
-    public RunTracker(){    }
+    public RunTracker(){   }
+
+    public RunTracker(int _rid, double _timeTaken, double _averageSpeed, double _maxSpeed, double _distance, double _estimatedCalories, String _date){
+        rid = _rid;
+        timeTaken = _timeTaken;
+        averageSpeed = _averageSpeed;
+        maxSpeed = _maxSpeed;
+        distance = _distance;
+        estimatedCalories = _estimatedCalories;
+        date = _date;
+    }
 
     /*
     public void addCoords(List<LatLong> _coords){

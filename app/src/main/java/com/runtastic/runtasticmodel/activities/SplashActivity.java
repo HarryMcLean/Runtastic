@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.runtastic.runtasticmodel.realm.RealmController;
+import com.runtastic.runtasticmodel.realm.RunTracker;
 import com.runtastic.runtasticmodel.realm.User;
 
 public class SplashActivity extends AppCompatActivity {
