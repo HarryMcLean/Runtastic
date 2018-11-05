@@ -37,7 +37,6 @@
 
     <com.andreabaccega.widget.FormEditText
         textvalidator:testType="nocheck"
-        textvalidator:emptyErrorString="Please enter a password"
         android:id="@+id/editText2"
         android:layout_width="368dp"
         android:layout_height="44dp"
