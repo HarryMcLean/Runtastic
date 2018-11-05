@@ -1,4 +1,4 @@
-package com.runtastic.runtasticmodel;
+package com.runtastic.runtasticmodel.helpers;
 
 /********************************************
  * RuntasticProgressBar.java

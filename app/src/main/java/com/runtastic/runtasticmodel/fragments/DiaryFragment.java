@@ -1,4 +1,4 @@
-package com.runtastic.runtasticmodel;
+package com.runtastic.runtasticmodel.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.regex.Pattern;
+
+import com.runtastic.runtasticmodel.R;
 
 public class DiaryFragment extends Fragment {
 

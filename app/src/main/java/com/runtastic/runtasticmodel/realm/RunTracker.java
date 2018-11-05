@@ -1,4 +1,4 @@
-package com.runtastic.runtasticmodel;
+package com.runtastic.runtasticmodel.realm;
 
 /********************************************
  * RunTracker.java
@@ -6,11 +6,6 @@ package com.runtastic.runtasticmodel;
  * For runtastic project
  * Realm database table object - defines saved run data
  */
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.StringTokenizer;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;

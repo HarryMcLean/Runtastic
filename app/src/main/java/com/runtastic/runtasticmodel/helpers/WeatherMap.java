@@ -1,4 +1,4 @@
-package com.runtastic.runtasticmodel;
+package com.runtastic.runtasticmodel.helpers;
 
 /********************************************
  * RealmController.java
@@ -9,6 +9,8 @@ package com.runtastic.runtasticmodel;
 
 import android.os.AsyncTask;
 import android.util.Log;
+
+import com.runtastic.runtasticmodel.realm.LatLong;
 
 import org.json.JSONObject;
 
