@@ -30,6 +30,7 @@ public class DiaryFragment extends Fragment {
         return myView;
 
         //val_1 = findViewById(R.id.val_1);
+        //testing phase
 
 
 
