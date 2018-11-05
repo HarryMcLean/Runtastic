@@ -37,10 +37,17 @@ public class SplashActivity extends AppCompatActivity {
         User user = new User(12346, "email2@email.com", "1999.1.1", "Password");
         rControl.addUser(user);
 
-        //close realm connection and go to next view
-        rControl.realmClose();
-        Intent intent = new Intent(this, SignInPage.class);
-        startActivity(intent);
+        if(rControl.userWasRemembered())
+        {
+            rControl.realmClose();
+            Intent intent = new Intent(this, RuntasticProgressBar.class);
+            startActivity(intent);
+        }
+        else {
+            rControl.realmClose();
+            Intent intent = new Intent(this, SignInPage.class);
+            startActivity(intent);
+        }
         finish();
     }
 }

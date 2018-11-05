@@ -76,12 +76,35 @@ public class RealmController {
         }
     }
 
+    //Remembers user
+    public void rememberUser(User _user){
+        realm.beginTransaction();
+        _user.setRemembered();
+        realm.commitTransaction();
+    }
+
+
     //Finds the logged in user
+    //check the database for the first user with logged in
+    //necessitates calling clearLoggedInUsers() below when restarting app as it is saved in the file
     public User getLoggedInUser(){
-        //check the database for the first user with logged in
-        //necessitates calling clearLoggedInUsers() below when restarting app as it is saved in the file
-        User _user = realm.where(User.class).equalTo("loggedIn", true).findFirst();
-        return _user;
+            User _user = realm.where(User.class).equalTo("loggedIn", true).findFirst();
+            return _user;
+    }
+
+    public void logOutUser(User _user){
+        realm.beginTransaction();
+        _user.setLoggedOut();
+        realm.commitTransaction();
+    }
+
+    public boolean userWasRemembered(){
+        try{
+            return realm.where(User.class).equalTo("remember", true).findFirst().isRemembered();
+        }
+        catch(Exception e){
+            return false;
+        }
     }
 
     //Using a realm transaction to alter the user's data as not allowed to directly change managed data
@@ -99,9 +122,11 @@ public class RealmController {
         //cycle through list and change value, saving each time
         for(int x = 0; x < results.size(); x++){
             User modifyUser = results.get(x);
-            realm.beginTransaction();
-            modifyUser.setLoggedOut();
-            realm.commitTransaction();
+            if(!modifyUser.isRemembered()) {
+                realm.beginTransaction();
+                modifyUser.setLoggedOut();
+                realm.commitTransaction();
+            }
         }
     }
 

@@ -13,10 +13,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.andreabaccega.formedittextvalidator.EmailValidator;
+import com.andreabaccega.formedittextvalidator.OrValidator;
+import com.andreabaccega.formedittextvalidator.Validator;
+import com.andreabaccega.widget.FormEditText;
 import com.runtastic.runtasticmodel.R;
+import com.runtastic.runtasticmodel.helpers.PasswordValidator;
+import com.runtastic.runtasticmodel.helpers.UsernameValidator;
 import com.runtastic.runtasticmodel.realm.RealmController;
 import com.runtastic.runtasticmodel.realm.User;
 
@@ -55,21 +62,27 @@ public class SignInPage extends AppCompatActivity {
                 //todo: regex expression for emails
 
                 //grab the user's input from the view.
-                EditText username = findViewById(R.id.editText);
-                EditText password = findViewById(R.id.editText2);
+                FormEditText username = findViewById(R.id.editText);
+                username.addValidator(new UsernameValidator(rControl));
+                FormEditText password = findViewById(R.id.editText2);
+                CheckBox checkbox = findViewById(R.id.checkBox);
 
-                if(!username.getText().toString().isEmpty())
+                if(username.testValidity())
                 {
-                    //user entered something
-                    //check realm for username
-                    if(rControl.checkUser(username.getText().toString())){
-                        //user is there so safe to grab it.
+
+                        //username was enterered and is there so safe to grab it.
                         User loginUser = rControl.getUser(username.getText().toString());
 
-                        //now we have a user check the password
-                        if(password.getText().toString().equals(loginUser.getPassword())){
+                        //now we have a user, check the password
+                        password.addValidator(new PasswordValidator(loginUser));
+                        if(password.testValidity()){
                             //password matched, set user to be logged in
                             rControl.loginUser(loginUser);
+
+                            //did user select remember me?
+                            if(checkbox.isChecked()){
+                                rControl.rememberUser(loginUser);
+                            }
 
                             //this was the last time we need the realm in this view.
                             rControl.realmClose();
@@ -86,13 +99,6 @@ public class SignInPage extends AppCompatActivity {
                             //todo: Password wrong message code here
                             Log.e("REX", "Wrong Password");
                         }
-                    }
-                    else
-                    {
-                        //todo: User doesnt exist message code here
-                        Log.e("REX", "User doesnt exist.");
-                    }
-
                 }
 
             }

@@ -19,7 +19,8 @@ public class User extends RealmObject {
     private String email;
     private String dob;
     private String password;
-    private boolean loggedIn;
+    private boolean loggedIn = false;
+    private boolean remember = false;
 
     private RealmList<RunTracker> runtracks = new RealmList<>();
 
@@ -60,7 +61,11 @@ public class User extends RealmObject {
     public String getPassword() { return password; }
 
     public void setLoggedIn(){ loggedIn = true;    }
-    public void setLoggedOut() { loggedIn = false; }
+    public void setLoggedOut() { loggedIn = false; remember = false; }
+
+    public void setRemembered(){ remember = true; }
+
+    public boolean isRemembered() { return remember; }
 
     public boolean getLoggedIn() { return loggedIn; }
 

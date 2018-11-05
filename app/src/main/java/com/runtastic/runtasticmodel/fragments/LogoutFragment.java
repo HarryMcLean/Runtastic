@@ -34,6 +34,11 @@ public class LogoutFragment extends Fragment {
 
                 //log user out
                 rControl = new RealmController();
+
+                //logout current user ensuring remembered is cleared too
+                rControl.logOutUser(rControl.getLoggedInUser());
+
+                //ensure all other users are logged out too in case
                 rControl.clearLoggedInUsers();
                 rControl.realmClose();
 
