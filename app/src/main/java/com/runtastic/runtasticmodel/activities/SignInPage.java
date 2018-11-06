@@ -7,7 +7,10 @@ package com.runtastic.runtasticmodel.activities;
  * Combined with RealmController.java which provides the connections to the realm database.
  */
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +27,7 @@ import com.andreabaccega.widget.FormEditText;
 import com.runtastic.runtasticmodel.R;
 import com.runtastic.runtasticmodel.helpers.PasswordValidator;
 import com.runtastic.runtasticmodel.helpers.UsernameValidator;
+import com.runtastic.runtasticmodel.helpers.WeatherMap;
 import com.runtastic.runtasticmodel.realm.RealmController;
 import com.runtastic.runtasticmodel.realm.User;
 
@@ -38,8 +42,23 @@ public class SignInPage extends AppCompatActivity {
     //Link to the realm
     private RealmController rControl;
 
-    //Used for gps testing, commenting out for now.
-    //private FusedLocationProviderClient mFusedLocationClient;
+    private BroadcastReceiver broadcastReceiver;
+    private WeatherMap weather = new WeatherMap();
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        if(broadcastReceiver == null){
+            broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent){
+                    weather.getWeather((String)intent.getExtras().get("coord"));
+                }
+            };
+        }
+        registerReceiver(broadcastReceiver, new IntentFilter("locationUpdate"));
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +165,9 @@ public class SignInPage extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(broadcastReceiver != null){
+            unregisterReceiver(broadcastReceiver);
+        }
     }
 
 
