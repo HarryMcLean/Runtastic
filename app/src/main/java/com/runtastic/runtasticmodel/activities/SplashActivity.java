@@ -22,6 +22,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.runtastic.runtasticmodel.helpers.WeatherMap;
 import com.runtastic.runtasticmodel.realm.RealmController;
 import com.runtastic.runtasticmodel.realm.User;
 
@@ -64,6 +65,8 @@ public class SplashActivity extends AppCompatActivity {
 //todo: Build new database on first run functions
         User user = new User(12346, "email2@email.com", "1999.1.1", "Password");
         rControl.addUser(user);
+
+
 
         if(rControl.userWasRemembered())
         {

@@ -25,6 +25,15 @@ import com.runtastic.runtasticmodel.fragments.WorkoutFragment;
 public class SideNavBar extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
+    private int ref = 0;
+
+    private final String LOGOUT_TAG = "logoutFragment";
+    private final String WORKOUT_TAG = "workoutFragment";
+    private final String STATISTICS_TAG = "statisticsFragment";
+    private final String DIARY_TAG = "diaryFragment";
+    private final String CALENDAR_TAG = "calendarFragment";
+    private final String STOPWATCH_TAG = "stopwatchFragment";
+    private final String START_TAG = "startFragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +52,7 @@ public class SideNavBar extends AppCompatActivity implements NavigationView.OnNa
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        displaySelectedScreen(new StartFragment());
+        displaySelectedScreen(new StartFragment(), START_TAG);
 
     }
 
@@ -56,37 +65,79 @@ public class SideNavBar extends AppCompatActivity implements NavigationView.OnNa
         switch(menuItem.getItemId()){
             case R.id.nav_record:
                 //startActivity(openGPS);
-                fragment = new WorkoutFragment();
+                fragment = getSupportFragmentManager().findFragmentByTag(WORKOUT_TAG);
+                if(fragment != null){
+                    displaySelectedScreen(fragment, WORKOUT_TAG);
+                }
+                else
+                {
+                    displaySelectedScreen(new WorkoutFragment(), WORKOUT_TAG);
+                }
                 break;
             case R.id.nav_statistics:
-                fragment = new StatisticsFragment();
+                fragment = getSupportFragmentManager().findFragmentByTag(STATISTICS_TAG);
+                if(fragment != null){
+                    displaySelectedScreen(fragment, STATISTICS_TAG);
+                }
+                else
+                {
+                    displaySelectedScreen(new StatisticsFragment(), STATISTICS_TAG);
+                }
                 break;
             case R.id.nav_diary:
-                fragment = new DiaryFragment();
+                fragment = getSupportFragmentManager().findFragmentByTag(DIARY_TAG);
+                if(fragment != null){
+                    displaySelectedScreen(fragment, DIARY_TAG);
+                }
+                else
+                {
+                    displaySelectedScreen(new DiaryFragment(), DIARY_TAG);
+                }
                 break;
             case R.id.nav_calendar:
-                fragment = new CalendarFragment();
+                fragment = getSupportFragmentManager().findFragmentByTag(CALENDAR_TAG);
+                if(fragment != null){
+                    displaySelectedScreen(fragment, CALENDAR_TAG);
+                }
+                else
+                {
+                    displaySelectedScreen(new CalendarFragment(), CALENDAR_TAG);
+                }
                 break;
             case R.id.nav_stopwatch:
-                fragment = new StopwatchFragment();
+                fragment = getSupportFragmentManager().findFragmentByTag(STOPWATCH_TAG);
+                if(fragment != null){
+                    displaySelectedScreen(fragment, STOPWATCH_TAG);
+                }
+                else
+                {
+                    displaySelectedScreen(new StopwatchFragment(), STOPWATCH_TAG);
+                }
                 break;
             case R.id.nav_logout:
-                fragment = new LogoutFragment();
+                fragment = getSupportFragmentManager().findFragmentByTag(LOGOUT_TAG);
+                if(fragment != null){
+                    displaySelectedScreen(fragment, LOGOUT_TAG);
+                }
+                else
+                {
+                    displaySelectedScreen(LogoutFragment.createInstance(), LOGOUT_TAG);
+                }
                 break;
         }
 
-        if (fragment != null){
-            displaySelectedScreen(fragment);
-        }
+        //if (fragment != null){
+        //    displaySelectedScreen(fragment);
+        //}
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    private void displaySelectedScreen(Fragment fragment){
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, fragment);
-        ft.commit();
+    private void displaySelectedScreen(Fragment fragment, String tag){
+        getSupportFragmentManager().beginTransaction().
+        replace(R.id.fragment_container, fragment, tag)
+                .addToBackStack(null).commit();
     }
 
     @Override

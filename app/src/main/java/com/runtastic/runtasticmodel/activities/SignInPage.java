@@ -42,24 +42,6 @@ public class SignInPage extends AppCompatActivity {
     //Link to the realm
     private RealmController rControl;
 
-    private BroadcastReceiver broadcastReceiver;
-    private WeatherMap weather = new WeatherMap();
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        if(broadcastReceiver == null){
-            broadcastReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent){
-                    weather.getWeather((String)intent.getExtras().get("coord"));
-                }
-            };
-        }
-        registerReceiver(broadcastReceiver, new IntentFilter("locationUpdate"));
-    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //linking to layout xml
@@ -165,9 +147,6 @@ public class SignInPage extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(broadcastReceiver != null){
-            unregisterReceiver(broadcastReceiver);
-        }
     }
 
 

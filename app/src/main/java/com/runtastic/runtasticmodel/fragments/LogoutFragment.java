@@ -19,6 +19,8 @@ import com.runtastic.runtasticmodel.activities.SignInPage;
 import com.runtastic.runtasticmodel.helpers.WeatherMap;
 import com.runtastic.runtasticmodel.realm.RealmController;
 
+import java.util.List;
+
 public class LogoutFragment extends Fragment {
 
     View myView;
@@ -27,10 +29,44 @@ public class LogoutFragment extends Fragment {
     private BroadcastReceiver broadcastReceiver;
     private WeatherMap weather = new WeatherMap();
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.e("Test", "New Object");
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.logout_layout,container,false);
+        Log.e("Test", "View restored");
+        return myView;
+    }
+
+    public static LogoutFragment createInstance(){
+        LogoutFragment fragment = new LogoutFragment();
+        return fragment;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(broadcastReceiver == null){
+            Log.e("Test", "New receiver");
+            broadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent){
+                    try{
+                        //weather.getWeather((String)intent.getExtras().get("coord"));
+                        weather.getWeather(intent.getExtras().get("coord").toString());
+                    }
+                    catch(Exception e) {
+                    }
+                }
+            };
+        }
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter("locationUpdate"));
+        Log.e("Test", "GPS Updates start");
 
         //Beginning of code to handle log in details.
         //Link to the button on the view
@@ -50,37 +86,33 @@ public class LogoutFragment extends Fragment {
                 rControl.clearLoggedInUsers();
                 rControl.realmClose();
 
-                //switch to the new view
+                //remove all fragments
+                List<Fragment> al = getActivity().getSupportFragmentManager().getFragments();
+                for (Fragment frag : al)
+                {
+                    getActivity().getSupportFragmentManager().beginTransaction().remove(frag).commit();
+                }
+
+                //switch to sign in view
                 Intent intent = new Intent(getActivity(), SignInPage.class);
                 startActivity(intent);
+
             }
         });
-
-        return myView;
-
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if(broadcastReceiver == null){
-            broadcastReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent){
-                    try{
-                        //weather.getWeather((String)intent.getExtras().get("coord"));
-                        weather.getWeather(intent.getExtras().get("coord").toString());
-                    }
-                    catch(Exception e) {
-                    }
-                }
-            };
+    public void onDestroyView(){
+        super.onDestroyView();
+        if(broadcastReceiver != null){
+            Log.e("Test", "GPS updates stopped");
+            getActivity().unregisterReceiver(broadcastReceiver);
         }
-        getActivity().registerReceiver(broadcastReceiver, new IntentFilter("locationUpdate"));
     }
 
     @Override
     public void onDestroy(){
+        Log.e("Test:", "Destroyed");
         super.onDestroy();
         if(broadcastReceiver != null){
             getActivity().unregisterReceiver(broadcastReceiver);
