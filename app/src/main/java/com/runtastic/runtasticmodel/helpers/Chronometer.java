@@ -1,6 +1,7 @@
 package com.runtastic.runtasticmodel.helpers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import com.runtastic.runtasticmodel.fragments.StopwatchFragment;
 import com.runtastic.runtasticmodel.runtasticmodel;
@@ -63,7 +64,6 @@ public class Chronometer implements Runnable {
             int hours = (int) ((since / (MILLS_TO_HOURS)) % 24);
             int millis = (int) since % 1000;//the last 3 digits of milliseconds
 
-
             try {
                 ((StopwatchFragment) stopWatchFragment).updateTimerText(String.format("%02d:%02d:%02d:%03d"
                         , hours, minutes, seconds, millis));
@@ -73,5 +73,4 @@ public class Chronometer implements Runnable {
 
         }
     }
-
 }

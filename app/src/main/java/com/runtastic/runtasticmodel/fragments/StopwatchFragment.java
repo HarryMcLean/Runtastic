@@ -56,7 +56,7 @@ public class StopwatchFragment extends Fragment {
                     mThreadChrono.start();
 
                     //start the chronometer
-                    mChronometer.start();
+                   mChronometer.start();
                 }
             }
         });

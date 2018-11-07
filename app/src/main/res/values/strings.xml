@@ -4,4 +4,5 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="email_not_valid">Not a valid email address.</string>
     <string name="not_valid_date">Not a date.</string>
+    <string name="timerStart">00:00:00:000</string>
 </resources>

@@ -17,6 +17,7 @@ import android.widget.Button;
 import com.runtastic.runtasticmodel.R;
 import com.runtastic.runtasticmodel.activities.SignInPage;
 import com.runtastic.runtasticmodel.helpers.WeatherMap;
+import com.runtastic.runtasticmodel.realm.LatLong;
 import com.runtastic.runtasticmodel.realm.RealmController;
 
 import java.util.List;
@@ -59,6 +60,10 @@ public class LogoutFragment extends Fragment {
                     try{
                         //weather.getWeather((String)intent.getExtras().get("coord"));
                         weather.getWeather(intent.getExtras().get("coord").toString());
+
+                        LatLong latlong = new LatLong(intent.getExtras().get("coord").toString());
+                        double lat = latlong.getLatitude();
+                        double lon = latlong.getLongitude();
                     }
                     catch(Exception e) {
                     }
