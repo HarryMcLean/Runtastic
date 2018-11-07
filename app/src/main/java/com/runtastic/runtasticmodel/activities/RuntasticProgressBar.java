@@ -1,4 +1,4 @@
-package com.runtastic.runtasticmodel;
+package com.runtastic.runtasticmodel.activities;
 /********************************************
  * RuntasticProgressBar.java
  * S3427251 - Aaron Nettelbeck 10/18
@@ -15,6 +15,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ProgressBar;
+
+import com.runtastic.runtasticmodel.helpers.ProgressBarAnimation;
+import com.runtastic.runtasticmodel.R;
+import com.runtastic.runtasticmodel.realm.RealmController;
 
 
 public class RuntasticProgressBar extends AppCompatActivity {

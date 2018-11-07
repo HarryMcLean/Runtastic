@@ -1,4 +1,4 @@
-package com.runtastic.runtasticmodel;
+package com.runtastic.runtasticmodel.realm;
 
 /********************************************
  * RealmController.java
@@ -17,7 +17,7 @@ public class RealmController {
     private Realm realm;
 
     //when created open link to database
-    RealmController(){
+    public RealmController(){
         realm = Realm.getDefaultInstance();
     }
 

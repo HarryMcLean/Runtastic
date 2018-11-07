@@ -1,4 +1,4 @@
-package com.runtastic.runtasticmodel;
+package com.runtastic.runtasticmodel.activities;
 
 /********************************************
  * SignInPage.java
@@ -15,6 +15,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.runtastic.runtasticmodel.R;
+import com.runtastic.runtasticmodel.realm.RealmController;
+import com.runtastic.runtasticmodel.realm.User;
 
 //For commented out section of gps coordinate testing.
 //import com.google.android.gms.location.LocationServices;
