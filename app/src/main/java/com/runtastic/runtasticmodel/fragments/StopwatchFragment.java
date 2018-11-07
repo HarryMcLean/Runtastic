@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.runtastic.runtasticmodel.R;
+import com.runtastic.runtasticmodel.helpers.Chronometer;
 
 public class StopwatchFragment extends Fragment {
 
@@ -21,7 +22,6 @@ public class StopwatchFragment extends Fragment {
     private Button mBtnLap;
     private Button mBtnStop;
 
-    private Context mContext;
     private Chronometer mChronometer;
     private Thread mThreadChrono;
 
