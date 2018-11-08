@@ -38,6 +38,7 @@
         <activity android:name=".activities.SideNavBar" android:theme="@style/AppTheme.NoActionBar"/>
 
         <service android:name=".activities.GPS_Service"/>
+        <service android:name=".activities.FusedGPSService"/>
     </application>
 
 </manifest>

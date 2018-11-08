@@ -106,7 +106,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     public void startGPSService(){
-        Intent i = new Intent(getApplicationContext(), GPS_Service.class);
+        Intent i = new Intent(getApplicationContext(), FusedGPSService.class);
         startService(i);
     }
 

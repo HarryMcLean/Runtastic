@@ -119,9 +119,6 @@ public class LogoutFragment extends Fragment {
     public void onDestroy(){
         Log.e("Test:", "Destroyed");
         super.onDestroy();
-        if(broadcastReceiver != null){
-            getActivity().unregisterReceiver(broadcastReceiver);
-        }
     }
 
 }
