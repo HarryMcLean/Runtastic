@@ -7,6 +7,10 @@ package com.runtastic.runtasticmodel.helpers;
  * TODO: further refinement for project.
  */
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -18,21 +22,32 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.StringTokenizer;
 
 public class WeatherMap {
     private LatLong latlong;
 
+    private double maxTemp;
+    private double minTemp;
     private String city;
 
     private JSONObject data = null;
 
     public WeatherMap(){
-        this.latlong = new LatLong(1.1, 1.1);
-        this.city = "Adelaide";
     }
 
-    public void getJSON(final String city) {
+    public void getWeather(String _gpsData){
+        //tokenizer assumes will only ever get lat|long string from gps service
+        StringTokenizer tokenizer = new StringTokenizer(_gpsData, "|");
+        double lat = Double.valueOf(tokenizer.nextToken());
+        double lon = Double.valueOf(tokenizer.nextToken());
+        latlong = new LatLong(lat, lon);
+        getJSON();
+    }
 
+    private void getJSON() {
+
+        data = null;
         new AsyncTask<Void, Void, Void>() {
 
 
@@ -45,8 +60,7 @@ public class WeatherMap {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    URL url = new URL("http://api.openweathermap.org/data/2.5/weather?q="+city+"&APPID=becfa035bc0724cf6367505299a18398");
-
+                    URL url = new URL("http://api.openweathermap.org/data/2.5/weather?lat="+latlong.getLatitude()+"&lon="+latlong.getLongitude()+"&APPID=becfa035bc0724cf6367505299a18398&units=metric");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
                     BufferedReader reader =

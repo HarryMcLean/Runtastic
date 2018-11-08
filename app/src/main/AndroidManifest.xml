@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.runtastic.runtasticmodel">
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <application
@@ -12,6 +14,14 @@
         android:theme="@style/AppTheme"
         android:name=".runtasticmodel"
         android:usesCleartextTraffic="true">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBItkdfyGLEMjyYgsNQf-DtcJyoYtMPqCk"/>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <activity android:name=".activities.SplashActivity" android:theme="@style/SplashTheme">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
@@ -26,6 +36,9 @@
         <activity android:name=".activities.AccountCreate" android:theme="@style/LoginTheme" />
 
         <activity android:name=".activities.SideNavBar" android:theme="@style/AppTheme.NoActionBar"/>
+
+        <service android:name=".activities.GPS_Service"/>
+        <service android:name=".activities.FusedGPSService"/>
     </application>
 
 </manifest>

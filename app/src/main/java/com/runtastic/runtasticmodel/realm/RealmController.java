@@ -9,6 +9,7 @@ package com.runtastic.runtasticmodel.realm;
 import android.util.Log;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 public class RealmController {
@@ -75,13 +76,35 @@ public class RealmController {
         }
     }
 
+    //Remembers user
+    public void rememberUser(User _user){
+        realm.beginTransaction();
+        _user.setRemembered();
+        realm.commitTransaction();
+    }
+
+
     //Finds the logged in user
-    public int getLoggedInUser(){
-        //check the database for the first user with logged in
-        //necessitates calling clearLoggedInUsers() below when restarting app as it is saved in the file
-        User _user = realm.where(User.class).equalTo("loggedIn", true).findFirst();
-        Log.e("Controller", "Logged in user found.");
-        return _user.getUid();
+    //check the database for the first user with logged in
+    //necessitates calling clearLoggedInUsers() below when restarting app as it is saved in the file
+    public User getLoggedInUser(){
+            User _user = realm.where(User.class).equalTo("loggedIn", true).findFirst();
+            return _user;
+    }
+
+    public void logOutUser(User _user){
+        realm.beginTransaction();
+        _user.setLoggedOut();
+        realm.commitTransaction();
+    }
+
+    public boolean userWasRemembered(){
+        try{
+            return realm.where(User.class).equalTo("remember", true).findFirst().isRemembered();
+        }
+        catch(Exception e){
+            return false;
+        }
     }
 
     //Using a realm transaction to alter the user's data as not allowed to directly change managed data
@@ -89,7 +112,6 @@ public class RealmController {
         realm.beginTransaction();
         _user.setLoggedIn();
         realm.commitTransaction();
-        Log.e("Controller", "Logged in user set");
     }
 
     //Finds all the logged in users and logs them out if it was missed last run, allows getLoggedInUser()
@@ -100,26 +122,44 @@ public class RealmController {
         //cycle through list and change value, saving each time
         for(int x = 0; x < results.size(); x++){
             User modifyUser = results.get(x);
-            realm.beginTransaction();
-            modifyUser.setLoggedOut();
-            realm.commitTransaction();
-            Log.e("Testing", "Logged in user cleared?");
+            if(!modifyUser.isRemembered()) {
+                realm.beginTransaction();
+                modifyUser.setLoggedOut();
+                realm.commitTransaction();
+            }
         }
     }
 
     //Finds next available user id
-    public int nextUserId(){
-        int nextUid = realm.where(User.class).max("uid").intValue() + 1;
+    public int nextUserId() {
+        int nextUid;
+        try {
+            nextUid = realm.where(User.class).max("uid").intValue() + 1;
+        }
+        catch (Exception e){
+        nextUid = 1001;
+        }
         return nextUid;
     }
 
-    //Adds a runtrack object to database, will throw an exception if user already exists, so catching it here to keep outside code simpler.
-    public void addRunTrack(final RunTracker _runtrack) {
+    public int nextRuntrackId(){
+        int nextRid;
+        try {
+            nextRid = realm.where(RunTracker.class).max("rid").intValue() + 1;
+        }
+        catch(Exception e){
+            nextRid = 1001;
+        }
+        return nextRid;
+    }
+
+    //Adds a runtrack object to database, will throw an exception if user already exists.
+    public void saveRunTrack(final RunTracker _runtrack) {
         try {
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-                    realm.copyToRealm(_runtrack);
+                    getLoggedInUser().addRuntrack(_runtrack);
                 }
             });
         }
@@ -129,14 +169,30 @@ public class RealmController {
     }
 
     //Can cause Exception - must be paired with checkRunTrack() or put in a try/catch block
-    public RunTracker getRunTrack(int _rid){
-        RunTracker _runTrack = realm.where(RunTracker.class).equalTo("rid", _rid).findFirst();
-        return _runTrack;
+    public RealmList<RunTracker> getRunTracks(User _user){
+        return _user.getRuntracks();
     }
 
-    //todo:checkRunTrack()
-    public boolean checkRunTrack(int _rid){
-        return true;
+    public RunTracker getLastRunTrack(){
+        return getLoggedInUser().getRuntracks().last();
+    }
+
+    public RunTracker getFastestAverage(){
+        double result = realm.where(RunTracker.class).equalTo("user.uid", getLoggedInUser().getUid()).max("averageSpeed").doubleValue();
+        RunTracker ret = realm.where(RunTracker.class).equalTo("user.uid", getLoggedInUser().getUid()).equalTo("averageSpeed", result).findFirst();
+        return ret;
+    }
+
+    public RunTracker getFastest(){
+        double result = realm.where(RunTracker.class).equalTo("user.uid", getLoggedInUser().getUid()).max("maxSpeed").doubleValue();
+        RunTracker ret = realm.where(RunTracker.class).equalTo("user.uid", getLoggedInUser().getUid()).equalTo("maxSpeed", result).findFirst();
+        return ret;
+    }
+
+    public RunTracker getLongest(){
+        double result = realm.where(RunTracker.class).equalTo("user.uid", getLoggedInUser().getUid()).max("distance").doubleValue();
+        RunTracker ret = realm.where(RunTracker.class).equalTo("user.uid", getLoggedInUser().getUid()).equalTo("distance", result).findFirst();
+        return ret;
     }
 
     //As the controller handles all the database transactions it needs to be able to close its private realm reference.

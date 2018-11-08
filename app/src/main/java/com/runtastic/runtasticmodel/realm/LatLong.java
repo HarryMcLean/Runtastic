@@ -31,7 +31,7 @@ public class LatLong extends RealmObject {
     }
 
     public LatLong(String _coordString){
-        StringTokenizer tokens = new StringTokenizer(_coordString, ",");
+        StringTokenizer tokens = new StringTokenizer(_coordString, "|");
         latitude = Double.valueOf(tokens.nextToken());
         longitude = Double.valueOf(tokens.nextToken());
     }

@@ -9,7 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.andreabaccega.formedittextvalidator.DateValidator;
+import com.andreabaccega.formedittextvalidator.EmailValidator;
+import com.andreabaccega.widget.FormEditText;
 import com.runtastic.runtasticmodel.R;
+import com.runtastic.runtasticmodel.helpers.PasswordsMatchValidator;
+import com.runtastic.runtasticmodel.helpers.UserExistsValidator;
 import com.runtastic.runtasticmodel.realm.RealmController;
 import com.runtastic.runtasticmodel.realm.User;
 
@@ -35,43 +40,47 @@ public class AccountCreate extends AppCompatActivity {
             public void onClick(View v) {
 
                 //grab the user's input from the view.
-                EditText password = findViewById(R.id.editText4);
-                EditText confirm = findViewById(R.id.editText6);
-                EditText username = findViewById(R.id.editText3);
-                EditText birthday = findViewById(R.id.editText7);
+                FormEditText password = findViewById(R.id.editText4);
+                FormEditText confirm = findViewById(R.id.editText6);
+                FormEditText username = findViewById(R.id.editText3);
+                FormEditText birthday = findViewById(R.id.editText7);
 
-                //check password match
-                if(password.getText().toString().equals(confirm.getText().toString())){
-                    Log.e("REX", "Password match?");
-                    //password matches
-                    //check if user already exists
-                    if(!rControl.checkUser(username.getText().toString())){
-                        //todo: code for checking birthday value
-                        //user doesn't exist
-                        //add user
-                        User newUser = new User(rControl.nextUserId(), username.getText().toString(), birthday.getText().toString(), password.getText().toString());
-                        rControl.addUser(newUser);
-                        Log.e("REX", "User added?");
+                //check its an email
+                username.addValidator(new EmailValidator("Not a valid email.") );
+                if(username.testValidity()) {
+                    //check doesn't exist
+                    username.addValidator(new UserExistsValidator(rControl));
+                    Log.e("ACC", "Valid email.");
+                    if(username.testValidity()){
+                        Log.e("ACC", "New username");
+                        //check passwords match
+                        password.addValidator(new PasswordsMatchValidator(confirm.getText().toString()));
+                        confirm.addValidator(new PasswordsMatchValidator(password.getText().toString()));
+                        if(password.testValidity() && confirm.testValidity()){
+                            Log.e("ACC", "passwords match");
+                            //check the date is a valid date
+                            birthday.addValidator(new DateValidator("Not a date.", "DefaultDate"));
+                            if(birthday.testValidity()) {
+                                Log.e("ACC", "Date format worked");
+                                //create user and add to realm
+                                User newUser = new User(rControl.nextUserId(), username.getText().toString(), birthday.getText().toString(), password.getText().toString());
+                                rControl.addUser(newUser);
+                                Log.e("REX", "User added?");
 
-                        //this was the last time we need the realm in this view.
-                        rControl.realmClose();
+                                //this was the last time we need the realm in this view.
+                                rControl.realmClose();
 
-                        //switch to the new view
-                        Intent intent = new Intent(AccountCreate.this, SignInPage.class);
-                        startActivity(intent);
+                                //switch to the new view
+                                Intent intent = new Intent(AccountCreate.this, SignInPage.class);
+                                startActivity(intent);
 
-                        //this clears memory?
-                        finish();
-                    }
-                    else
-                    {
-                        //todo: code for prompt about user already exists
+                                //this clears memory?
+                                finish();
+                            }
+                        }
                     }
                 }
-                else
-                {
-                    //todo: code for prompt about password doesn't match
-                }
+
             }
         });
     }
