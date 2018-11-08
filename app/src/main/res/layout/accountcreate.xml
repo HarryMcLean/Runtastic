@@ -111,9 +111,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText4" />
 
-    <com.andreabaccega.widget.FormEditText
-        textvalidator:testType="date"
-        textvalidator:testErrorString="@string/not_valid_date"
+    <TextView
         android:id="@+id/editText7"
         android:layout_width="207dp"
         android:layout_height="38dp"
@@ -122,7 +120,11 @@
         android:ems="10"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
+        android:text="Tap Here"
+        android:textSize="18sp"
+        android:textAlignment="center"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
 
     <TextView
         android:id="@+id/textView9"
