@@ -8,6 +8,8 @@ package com.runtastic.runtasticmodel.realm;
 
 import android.util.Log;
 
+import com.runtastic.runtasticmodel.helpers.HaversineAlgorithm;
+
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
@@ -16,6 +18,8 @@ public class RealmController {
 
     //this will be the reference to the realm system
     private Realm realm;
+
+    private RunTracker trackBuilder;
 
     //when created open link to database
     public RealmController(){
@@ -146,6 +150,7 @@ public class RealmController {
         int nextRid;
         try {
             nextRid = realm.where(RunTracker.class).max("rid").intValue() + 1;
+            Log.e("RID", "nextRid");
         }
         catch(Exception e){
             nextRid = 1001;
@@ -174,7 +179,9 @@ public class RealmController {
     }
 
     public RunTracker getLastRunTrack(){
+        Log.e("Test", "Last track " + getLoggedInUser().getRuntracks().last().getRid());
         return getLoggedInUser().getRuntracks().last();
+
     }
 
     public RunTracker getFastestAverage(){
@@ -193,6 +200,26 @@ public class RealmController {
         double result = realm.where(RunTracker.class).equalTo("user.uid", getLoggedInUser().getUid()).max("distance").doubleValue();
         RunTracker ret = realm.where(RunTracker.class).equalTo("user.uid", getLoggedInUser().getUid()).equalTo("distance", result).findFirst();
         return ret;
+    }
+
+    public void createRunTrack(){
+        trackBuilder = new RunTracker();
+    }
+
+    public RunTracker getCurrentTrack(){
+        return trackBuilder;
+    }
+
+    public double calcDistanceRun(){
+        RealmList<LatLong> points = trackBuilder.getCoords();
+        double dist = 0;
+        Log.e("Debug", String.valueOf(points.size()));
+        for(int x = 1; x < points.size(); x++){
+
+            dist += HaversineAlgorithm.HaversineInKM(points.get(x-1).getLatitude(), points.get(x-1).getLongitude(), points.get(x).getLatitude(), points.get(x).getLongitude());
+            Log.e("Calc", String.valueOf(dist));
+        }
+        return dist;
     }
 
     //As the controller handles all the database transactions it needs to be able to close its private realm reference.

@@ -19,7 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.Button;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -29,10 +29,17 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.runtastic.runtasticmodel.R;
 import com.runtastic.runtasticmodel.realm.LatLong;
+import com.runtastic.runtasticmodel.realm.RealmController;
+
+import java.time.Instant;
+import java.util.Calendar;
+import java.util.Date;
+
 
 public class WorkoutFragment extends Fragment implements OnMapReadyCallback {
 
@@ -49,11 +56,21 @@ public class WorkoutFragment extends Fragment implements OnMapReadyCallback {
     private BroadcastReceiver broadcastReceiver;
     private MapView mapView;
 
+    private boolean workingOut = false;
+    private RealmController rControl = new RealmController();
+    private Date startTime;
+    private Date endTime;
+
     View myView;
+
+    @Override
+    public void onCreate(Bundle savedInstance){
+        super.onCreate(savedInstance);
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View myView = inflater.inflate(R.layout.workout_layout,container,false);
+        myView = inflater.inflate(R.layout.workout_layout,container,false);
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if(mapFragment == null){
             FragmentManager fm = getFragmentManager();
@@ -67,7 +84,42 @@ public class WorkoutFragment extends Fragment implements OnMapReadyCallback {
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
         mapView.getMapAsync(this);
+
+        final Button button = myView.findViewById(R.id.button5);
+
+        //click listener started.
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(!workingOut) {
+                    rControl.createRunTrack();
+                    rControl.getCurrentTrack().setRid(rControl.nextRuntrackId());
+                    startTime = Calendar.getInstance().getTime();
+                    workingOut = true;
+                    button.setText("Stop");
+                }
+                else
+                {
+                    rControl.getCurrentTrack().setDistance(rControl.calcDistanceRun());
+                    Log.e("WKOUT", "Distance run " + rControl.getCurrentTrack().getDistance() + " km");
+                    endTime = Calendar.getInstance().getTime();
+                    double timeDif = endTime.getTime() - startTime.getTime();
+                    Log.e("Time Dif", String.valueOf(timeDif / 1000D));
+                    rControl.getCurrentTrack().setTimeTaken(timeDif / 1000D);
+                    rControl.saveRunTrack(rControl.getCurrentTrack());
+                    workingOut = false;
+                    button.setText("Start");
+                }
+            }
+        });
+
         return myView;
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+
     }
 
     private void initMap(){
@@ -122,13 +174,14 @@ public class WorkoutFragment extends Fragment implements OnMapReadyCallback {
                 @Override
                 public void onReceive(Context context, Intent intent){
                     try{
-                        //weather.getWeather((String)intent.getExtras().get("coord"));
-
                         LatLong latlong = new LatLong(intent.getExtras().get("coord").toString());
                         Log.e("GPS", intent.getExtras().get("coord").toString());
                         moveCamera(new LatLng(latlong.getLatitude(),
                                         latlong.getLongitude()),
                                 DEFAULT_ZOOM);
+                        if(workingOut){
+                            rControl.getCurrentTrack().addCoord(latlong);
+                        }
                     }
                     catch(Exception e) {
                     }

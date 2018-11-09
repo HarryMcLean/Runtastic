@@ -22,8 +22,8 @@ public class StopwatchFragment extends Fragment {
     private Button mBtnLap;
     private Button mBtnStop;
 
-    private Chronometer mChronometer;
-    private Thread mThreadChrono;
+    private Chronometer mChronometer = new Chronometer(this);
+    private Thread mThreadChrono = new Thread(mChronometer);
 
     public boolean haltDisplayForLap= false;
     private Fragment stopWatchFragment;
@@ -58,6 +58,8 @@ public class StopwatchFragment extends Fragment {
                     //start the chronometer
                    mChronometer.start();
                 }
+                mThreadChrono.start();
+                mChronometer.start();
             }
         });
 
@@ -67,12 +69,13 @@ public class StopwatchFragment extends Fragment {
                 //if the chronometer had been instantiated before
                 if(mChronometer != null){
                     //stop the chronometer
-                    mChronometer.stop();
+                    //mChronometer.stop();
                     //stop the thread
-                    mThreadChrono.interrupt();
-                    mThreadChrono = null;
+                    //mThreadChrono.interrupt();
+                    //mThreadChrono = null;
                     //kill the chrono class
-                    mChronometer = null;
+                    mThreadChrono.interrupt();
+                    mChronometer.stop();
                 }else{
                     String resetTimeText= "00:00:00:000";
                     //TODO: Integer.toString(R.string.timerStart);
@@ -95,6 +98,18 @@ public class StopwatchFragment extends Fragment {
             }
         });
         return myView;
+    }
+
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        mThreadChrono = null;
+        mChronometer = null;
     }
 
 

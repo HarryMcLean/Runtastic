@@ -3,6 +3,7 @@ package com.runtastic.runtasticmodel.activities;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -49,6 +50,7 @@ public class AccountCreate extends AppCompatActivity {
         final Button cancelButton = findViewById(R.id.button3);
 
         mDisplayDate = (TextView) findViewById(R.id.editText7);
+        mDisplayDate.setPaintFlags(button.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
         //click listener started.
         button.setOnClickListener(new View.OnClickListener() {

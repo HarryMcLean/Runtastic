@@ -7,6 +7,8 @@ package com.runtastic.runtasticmodel.realm;
  * Realm database table object - defines saved run data
  */
 
+import java.util.Calendar;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
@@ -53,7 +55,23 @@ public class RunTracker extends RealmObject {
     public void addCoords(RealmList<LatLong> _coords) { coords = _coords; }
     public RealmList<LatLong> getCoords() { return coords; }
 
-    public RunTracker(){   }
+    public RunTracker(){
+        timeTaken = 0;
+        averageSpeed = 0;
+        maxSpeed = 0;
+        distance = 0;
+        estimatedCalories = 0;
+
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        day++;
+        month++;
+
+        date = day + "/" + month + "/" + year;
+    }
 
     public RunTracker(int _rid, double _timeTaken, double _averageSpeed, double _maxSpeed, double _distance, double _estimatedCalories, String _date){
         rid = _rid;
