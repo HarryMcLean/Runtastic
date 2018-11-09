@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -36,6 +37,8 @@ import com.runtastic.runtasticmodel.R;
 import com.runtastic.runtasticmodel.realm.LatLong;
 import com.runtastic.runtasticmodel.realm.RealmController;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
@@ -61,6 +64,9 @@ public class WorkoutFragment extends Fragment implements OnMapReadyCallback {
     private Date startTime;
     private Date endTime;
 
+    private TextView distText;
+    private TextView timeText;
+
     View myView;
 
     @Override
@@ -84,6 +90,9 @@ public class WorkoutFragment extends Fragment implements OnMapReadyCallback {
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
         mapView.getMapAsync(this);
+
+        distText = myView.findViewById(R.id.textView19);
+        timeText = myView.findViewById(R.id.textView20);
 
         final Button button = myView.findViewById(R.id.button5);
 
@@ -181,6 +190,12 @@ public class WorkoutFragment extends Fragment implements OnMapReadyCallback {
                                 DEFAULT_ZOOM);
                         if(workingOut){
                             rControl.getCurrentTrack().addCoord(latlong);
+                            endTime = Calendar.getInstance().getTime();
+                            double timeDif = endTime.getTime() - startTime.getTime();
+                            DecimalFormat df = new DecimalFormat("#.##");
+                            df.setRoundingMode(RoundingMode.CEILING);
+                            timeText.setText(String.valueOf(timeDif / 1000D) + " sec");
+                            distText.setText(df.format(rControl.calcDistanceRun()) + " km");
                         }
                     }
                     catch(Exception e) {
