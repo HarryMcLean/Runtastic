@@ -259,4 +259,13 @@ public class WorkoutFragment extends Fragment implements OnMapReadyCallback {
         //}
     }
 
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        if(broadcastReceiver != null){
+            Log.e("Test", "GPS updates stopped");
+            getActivity().unregisterReceiver(broadcastReceiver);
+        }
+    }
+
 }
