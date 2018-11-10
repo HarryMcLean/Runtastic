@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,6 +32,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.runtastic.runtasticmodel.R;
@@ -66,6 +69,7 @@ public class WorkoutFragment extends Fragment implements OnMapReadyCallback {
 
     private TextView distText;
     private TextView timeText;
+    private LatLong lastLatLng = null;
 
     View myView;
 
@@ -196,6 +200,14 @@ public class WorkoutFragment extends Fragment implements OnMapReadyCallback {
                             df.setRoundingMode(RoundingMode.CEILING);
                             timeText.setText(String.valueOf(timeDif / 1000D) + " sec");
                             distText.setText(df.format(rControl.calcDistanceRun()) + " km");
+                            if(lastLatLng != null) {
+
+                                Polyline line = mMap.addPolyline(new PolylineOptions().add(new LatLng(lastLatLng.getLatitude(),
+                                        lastLatLng.getLongitude()), new LatLng(latlong.getLatitude(),
+                                        latlong.getLongitude())).width(5).color(Color.RED));
+
+                            }
+                            lastLatLng = latlong;
                         }
                     }
                     catch(Exception e) {

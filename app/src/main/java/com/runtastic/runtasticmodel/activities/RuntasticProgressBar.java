@@ -49,16 +49,16 @@ public class RuntasticProgressBar extends AppCompatActivity {
 
         //Example RunTracker use
         //Either build the runTrack slowly, then save it.
-        //RunTracker rt1 = new RunTracker();
-        //rt1.setRid(rControl.nextRuntrackId());
-        //rt1.setAverageSpeed(25);
-        //rt1.setDistance(11);
-        //rt1.setDat("123456");
-        //rt1.setEstimatedCalories(800);
-        //rt1.setTimeTaken(30);
-        //LatLong coord1 = new LatLong(25.0, 25.0);
-        //rt1.addCoord(coord1);
-        //rControl.saveRunTrack(rt1);
+        RunTracker rt1 = new RunTracker();
+        rt1.setRid(1);
+        rt1.setAverageSpeed(0);
+        rt1.setDistance(0);
+        rt1.setDat("Never");
+        rt1.setEstimatedCalories(0);
+        rt1.setTimeTaken(0);
+        LatLong coord1 = new LatLong(0.0, 0.0);
+        rt1.addCoord(coord1);
+        rControl.saveRunTrack(rt1);
 
         //Or have all the variables and make it in one go
         //RunTracker rt2 = new RunTracker(rControl.nextRuntrackId(), 25.0, 11.0, 744.0, 30.0, 30.0, "123457");
