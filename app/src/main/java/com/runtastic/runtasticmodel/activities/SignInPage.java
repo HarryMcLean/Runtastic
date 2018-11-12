@@ -7,16 +7,27 @@ package com.runtastic.runtasticmodel.activities;
  * Combined with RealmController.java which provides the connections to the realm database.
  */
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.andreabaccega.formedittextvalidator.EmailValidator;
+import com.andreabaccega.formedittextvalidator.OrValidator;
+import com.andreabaccega.formedittextvalidator.Validator;
+import com.andreabaccega.widget.FormEditText;
 import com.runtastic.runtasticmodel.R;
+import com.runtastic.runtasticmodel.helpers.PasswordValidator;
+import com.runtastic.runtasticmodel.helpers.UsernameValidator;
+import com.runtastic.runtasticmodel.helpers.WeatherMap;
 import com.runtastic.runtasticmodel.realm.RealmController;
 import com.runtastic.runtasticmodel.realm.User;
 
@@ -31,9 +42,6 @@ public class SignInPage extends AppCompatActivity {
     //Link to the realm
     private RealmController rControl;
 
-    //Used for gps testing, commenting out for now.
-    //private FusedLocationProviderClient mFusedLocationClient;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //linking to layout xml
@@ -42,15 +50,6 @@ public class SignInPage extends AppCompatActivity {
 
         //open the realm and controller.
         rControl = new RealmController();
-
-        //This log checks if the user added to the realm in the previous view has persisted to this view
-        //even though the realm was closed only for testing - to remove later.
-        try {
-            Log.e("Test", rControl.getUser(12347).getEmail());
-        }
-        catch(Exception e){
-            Log.e("Realm Exception", "User doesn't exist");
-        }
 
         //Beginning of code to handle log in details.
         //Link to the button on the view
@@ -64,21 +63,27 @@ public class SignInPage extends AppCompatActivity {
                 //todo: regex expression for emails
 
                 //grab the user's input from the view.
-                EditText username = findViewById(R.id.editText);
-                EditText password = findViewById(R.id.editText2);
+                FormEditText username = findViewById(R.id.editText);
+                username.addValidator(new UsernameValidator(rControl));
+                FormEditText password = findViewById(R.id.editText2);
+                CheckBox checkbox = findViewById(R.id.checkBox);
 
-                if(!username.getText().toString().isEmpty())
+                if(username.testValidity())
                 {
-                    //user entered something
-                    //check realm for username
-                    if(rControl.checkUser(username.getText().toString())){
-                        //user is there so safe to grab it.
+
+                        //username was enterered and is there so safe to grab it.
                         User loginUser = rControl.getUser(username.getText().toString());
 
-                        //now we have a user check the password
-                        if(password.getText().toString().equals(loginUser.getPassword())){
+                        //now we have a user, check the password
+                        password.addValidator(new PasswordValidator(loginUser));
+                        if(password.testValidity()){
                             //password matched, set user to be logged in
                             rControl.loginUser(loginUser);
+
+                            //did user select remember me?
+                            if(checkbox.isChecked()){
+                                rControl.rememberUser(loginUser);
+                            }
 
                             //this was the last time we need the realm in this view.
                             rControl.realmClose();
@@ -95,13 +100,6 @@ public class SignInPage extends AppCompatActivity {
                             //todo: Password wrong message code here
                             Log.e("REX", "Wrong Password");
                         }
-                    }
-                    else
-                    {
-                        //todo: User doesnt exist message code here
-                        Log.e("REX", "User doesnt exist.");
-                    }
-
                 }
 
             }

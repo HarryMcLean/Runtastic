@@ -2,11 +2,12 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:textvalidator="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
+    <com.andreabaccega.widget.FormEditText
         android:id="@+id/editText6"
         android:layout_width="352dp"
         android:layout_height="36dp"
@@ -59,7 +60,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-    <EditText
+    <com.andreabaccega.widget.FormEditText
+        textvalidator:testType="email"
         android:id="@+id/editText3"
         android:layout_width="350dp"
         android:layout_height="39dp"
@@ -84,7 +86,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText3" />
 
-    <EditText
+    <com.andreabaccega.widget.FormEditText
         android:id="@+id/editText4"
         android:layout_width="352dp"
         android:layout_height="36dp"
@@ -109,7 +111,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText4" />
 
-    <EditText
+    <TextView
         android:id="@+id/editText7"
         android:layout_width="207dp"
         android:layout_height="38dp"
@@ -118,14 +120,21 @@
         android:ems="10"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
+        android:text="dd/mm/yyyy"
+        android:textSize="18sp"
+        android:textAlignment="center"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
 
     <TextView
         android:id="@+id/textView9"
         android:layout_width="57dp"
         android:layout_height="22dp"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:text="Birthdate"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/editText7"
         app:layout_constraintTop_toBottomOf="@+id/editText6" />
 
