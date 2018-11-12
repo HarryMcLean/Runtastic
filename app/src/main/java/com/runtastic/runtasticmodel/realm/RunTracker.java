@@ -18,6 +18,7 @@ import io.realm.annotations.PrimaryKey;
 public class RunTracker extends RealmObject {
     @PrimaryKey
     private int rid;
+
     private double timeTaken;
     private double averageSpeed;
     private double maxSpeed;

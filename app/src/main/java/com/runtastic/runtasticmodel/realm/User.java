@@ -6,6 +6,8 @@ package com.runtastic.runtasticmodel.realm;
  * Realm database table object - defines user data
  */
 
+import android.util.Log;
+
 import java.util.Calendar;
 
 import io.realm.RealmList;
@@ -69,6 +71,20 @@ public class User extends RealmObject {
 
     public boolean getLoggedIn() { return loggedIn; }
 
-    protected void addRuntrack(RunTracker _inTrack){ runtracks.add(_inTrack); }
+    protected void addRuntrack(RunTracker _inTrack){
+        //need to add code to confirm unique RID as realm doesnt seem to be doing it
+        boolean exists = false;
+        for(RunTracker r : runtracks){
+            if(r.getRid() == _inTrack.getRid()){
+                exists = true;
+            }
+        }
+
+        if(exists){
+            Log.e("User", "RID already exists, not added");
+        }
+        else
+            runtracks.add(_inTrack);
+    }
     protected RealmList<RunTracker> getRuntracks() { return runtracks; }
 }
