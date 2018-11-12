@@ -13,9 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.runtastic.runtasticmodel.R;
 
 import java.util.ArrayList;
@@ -92,9 +94,11 @@ public class StatisticsFragment extends Fragment {
         }
 
         BarDataSet barDataSet = new BarDataSet(barEntries, "Dates");
-        BarData barData = new BarData(dates, barDataSet);
+        BarData barData = new BarData(barDataSet);
         barChart.setData(barData);
-        barChart.setDescription("Your splits.");
+        Description desc = new Description();
+        desc.setText("Your Splits");
+        barChart.setDescription(desc);
     }
 
     public ArrayList<String> getList(Calendar startDate, Calendar endDate) {

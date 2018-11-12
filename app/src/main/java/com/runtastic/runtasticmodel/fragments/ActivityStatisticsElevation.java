@@ -15,6 +15,7 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.runtastic.runtasticmodel.R;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class ActivityStatisticsElevation extends Fragment {
         dates.add("August");
         dates.add("September");
 
-        BarData data = new BarData(dates, barDataSet);
+        BarData data = new BarData(barDataSet);
         barChart.setData(data);
 
         barChart.setTouchEnabled(true);
