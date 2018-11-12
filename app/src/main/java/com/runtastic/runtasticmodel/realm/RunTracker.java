@@ -68,8 +68,8 @@ public class RunTracker extends RealmObject {
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
-        day++;
-        month++;
+        //day++;
+        month += 1;
 
         date = day + "/" + month + "/" + year;
     }

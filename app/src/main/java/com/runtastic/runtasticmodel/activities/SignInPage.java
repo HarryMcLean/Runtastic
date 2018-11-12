@@ -31,11 +31,7 @@ import com.runtastic.runtasticmodel.helpers.WeatherMap;
 import com.runtastic.runtasticmodel.realm.RealmController;
 import com.runtastic.runtasticmodel.realm.User;
 
-//For commented out section of gps coordinate testing.
-//import com.google.android.gms.location.LocationServices;
-//import com.google.android.gms.tasks.OnSuccessListener;
-//import android.location.Location;
-//import com.google.android.gms.location.FusedLocationProviderClient;
+
 
 public class SignInPage extends AppCompatActivity {
 

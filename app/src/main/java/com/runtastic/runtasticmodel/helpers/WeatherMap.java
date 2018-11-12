@@ -7,13 +7,12 @@ package com.runtastic.runtasticmodel.helpers;
  * TODO: further refinement for project.
  */
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.runtastic.runtasticmodel.helpers.weather.Weather;
 import com.runtastic.runtasticmodel.realm.LatLong;
 
 import org.json.JSONObject;
@@ -27,21 +26,26 @@ import java.util.StringTokenizer;
 public class WeatherMap {
     private LatLong latlong;
 
-    private double maxTemp;
-    private double minTemp;
-    private String city;
-
     private JSONObject data = null;
+
+    private TextView minTempView;
+    private TextView maxTempView;
+    private TextView cityView;
+    private TextView curTemp;
 
     public WeatherMap(){
     }
 
-    public void getWeather(String _gpsData){
+    public void getWeather(String _gpsData, TextView _curTemp, TextView _minTemp, TextView _maxTemp, TextView _city){
         //tokenizer assumes will only ever get lat|long string from gps service
         StringTokenizer tokenizer = new StringTokenizer(_gpsData, "|");
         double lat = Double.valueOf(tokenizer.nextToken());
         double lon = Double.valueOf(tokenizer.nextToken());
         latlong = new LatLong(lat, lon);
+        minTempView = _minTemp;
+        maxTempView = _maxTemp;
+        cityView = _city;
+        curTemp = _curTemp;
         getJSON();
     }
 
@@ -93,7 +97,12 @@ public class WeatherMap {
             @Override
             protected void onPostExecute(Void Void) {
                 if(data!=null){
-                    Log.e("my weather received",data.toString());
+                    Gson gson = new Gson();
+                    Weather weather = gson.fromJson(data.toString(), Weather.class);
+                    minTempView.setText("Max Temp: " + String.valueOf(weather.getMinTemp()));
+                    maxTempView.setText("Min Temp: " + String.valueOf(weather.getMaxTemp()));
+                    cityView.setText(weather.getName());
+                    curTemp.setText("Temp: " + String.valueOf(weather.getTemp()));
                 }
 
             }

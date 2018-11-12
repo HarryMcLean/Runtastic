@@ -27,7 +27,6 @@ public class LogoutFragment extends Fragment {
     View myView;
     private RealmController rControl;
 
-    private BroadcastReceiver broadcastReceiver;
     private WeatherMap weather = new WeatherMap();
 
     @Override
@@ -52,26 +51,6 @@ public class LogoutFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if(broadcastReceiver == null){
-            Log.e("Test", "New receiver");
-            broadcastReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent){
-                    try{
-                        //weather.getWeather((String)intent.getExtras().get("coord"));
-                        weather.getWeather(intent.getExtras().get("coord").toString());
-
-                        LatLong latlong = new LatLong(intent.getExtras().get("coord").toString());
-                        double lat = latlong.getLatitude();
-                        double lon = latlong.getLongitude();
-                    }
-                    catch(Exception e) {
-                    }
-                }
-            };
-        }
-        getActivity().registerReceiver(broadcastReceiver, new IntentFilter("locationUpdate"));
-        Log.e("Test", "GPS Updates start");
 
         //Beginning of code to handle log in details.
         //Link to the button on the view
@@ -109,15 +88,10 @@ public class LogoutFragment extends Fragment {
     @Override
     public void onDestroyView(){
         super.onDestroyView();
-        if(broadcastReceiver != null){
-            Log.e("Test", "GPS updates stopped");
-            getActivity().unregisterReceiver(broadcastReceiver);
-        }
     }
 
     @Override
     public void onDestroy(){
-        Log.e("Test:", "Destroyed");
         super.onDestroy();
     }
 
