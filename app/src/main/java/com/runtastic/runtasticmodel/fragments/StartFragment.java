@@ -17,6 +17,7 @@ package com.runtastic.runtasticmodel.fragments;
         import java.text.DecimalFormat;
 
 
+
 public class StartFragment extends Fragment {
 
     View myView;
