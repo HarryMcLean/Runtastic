@@ -21,6 +21,9 @@ public class StopwatchFragment extends Fragment {
     private Button mBtnStart;
     private Button mBtnLap;
     private Button mBtnStop;
+    private TextView splits;
+
+    private int splitCtr = 1;
 
     private Chronometer mChronometer = new Chronometer(this);
     private Thread mThreadChrono = new Thread(mChronometer);
@@ -42,6 +45,7 @@ public class StopwatchFragment extends Fragment {
         mBtnStart = myView.findViewById(R.id.btn_start);
         mBtnLap = myView.findViewById(R.id.btn_lap);
         mBtnStop = myView.findViewById(R.id.btn_stop);
+        splits = myView.findViewById(R.id.textView11);
 
         //btn_start click handler
         mBtnStart.setOnClickListener(new View.OnClickListener() {
@@ -58,8 +62,13 @@ public class StopwatchFragment extends Fragment {
                     //start the chronometer
                    mChronometer.start();
                 }
-                mThreadChrono.start();
-                mChronometer.start();
+
+                if(!mChronometer.isRunning()){
+                    mThreadChrono = new Thread(mChronometer);
+                    mThreadChrono.start();
+                    mChronometer.start();
+                }
+
             }
         });
 
@@ -67,7 +76,7 @@ public class StopwatchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //if the chronometer had been instantiated before
-                if(mChronometer != null){
+                if(mChronometer.isRunning()){
                     //stop the chronometer
                     //mChronometer.stop();
                     //stop the thread
@@ -81,6 +90,9 @@ public class StopwatchFragment extends Fragment {
                     //TODO: Integer.toString(R.string.timerStart);
                     // fix this reference - it is returning an int and the parse is helping
                     updateTimerText(resetTimeText);
+                    mChronometer.reset();
+                    splits.setText("Laps");
+                    splitCtr = 1;
                 }
 
             }
@@ -90,10 +102,11 @@ public class StopwatchFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //if the chronometer had been instantiated before
-                if(mChronometer != null){
-                    //toggle lap display
-                    haltDisplayForLap = !haltDisplayForLap;
-
+                if(mChronometer.isRunning()){
+                    //add lap data to textview.
+                    String text = splits.getText().toString() + "\n" + splitCtr + " " +  mTvTime.getText().toString();
+                    splits.setText(text);
+                    splitCtr++;
                 }
             }
         });
@@ -103,6 +116,8 @@ public class StopwatchFragment extends Fragment {
     @Override
     public void onDestroyView(){
         super.onDestroyView();
+        mThreadChrono.interrupt();
+        mChronometer.stop();
     }
 
     @Override

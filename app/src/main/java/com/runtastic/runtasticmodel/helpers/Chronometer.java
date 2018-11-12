@@ -40,6 +40,10 @@ public class Chronometer implements Runnable {
         mIsRunning = false;
     }
 
+    public void reset() {
+        mStartTime = System.currentTimeMillis();
+    }
+
     public boolean isRunning() {
         return mIsRunning;
     }
@@ -50,7 +54,6 @@ public class Chronometer implements Runnable {
 
     @Override
     public void run() {
-
 
         while (mIsRunning) {
 
@@ -72,5 +75,7 @@ public class Chronometer implements Runnable {
             }
 
         }
+
     }
+
 }
