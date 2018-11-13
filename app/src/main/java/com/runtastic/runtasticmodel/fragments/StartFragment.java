@@ -16,6 +16,7 @@ package com.runtastic.runtasticmodel.fragments;
 
         import com.runtastic.runtasticmodel.R;
         import com.runtastic.runtasticmodel.helpers.WeatherMap;
+        import com.runtastic.runtasticmodel.realm.DiaryData;
         import com.runtastic.runtasticmodel.realm.LatLong;
         import com.runtastic.runtasticmodel.realm.RealmController;
         import com.runtastic.runtasticmodel.realm.RunTracker;
@@ -23,6 +24,7 @@ package com.runtastic.runtasticmodel.fragments;
         import java.math.RoundingMode;
         import java.text.DecimalFormat;
 
+        import io.realm.RealmList;
 
 
 public class StartFragment extends Fragment {
@@ -43,6 +45,13 @@ public class StartFragment extends Fragment {
         super.onResume();
 
         rControl.realmOpen();
+
+        //Testing waypoint saving
+        RunTracker rt = rControl.getLastRunTrack();
+        RealmList<LatLong> list = rt.getCoords();
+        for(LatLong x : list){
+            Log.e("Waypoint", x.getLatitude() + ":" + x.getLongitude());
+        }
 
         TextView distance = myView.findViewById(R.id.textView15);
         TextView calories = myView.findViewById(R.id.textView16);

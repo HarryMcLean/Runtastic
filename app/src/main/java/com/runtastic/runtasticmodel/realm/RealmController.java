@@ -150,12 +150,22 @@ public class RealmController {
         int nextRid;
         try {
             nextRid = realm.where(RunTracker.class).max("rid").intValue() + 1;
-            Log.e("RID", "nextRid");
         }
         catch(Exception e){
             nextRid = 1001;
         }
         return nextRid;
+    }
+
+    public int nextDiaryId(){
+        int nextDid;
+        try {
+            nextDid = realm.where(DiaryData.class).max("did").intValue() + 1;
+        }
+        catch(Exception e){
+            nextDid = 1001;
+        }
+        return nextDid;
     }
 
     //Adds a runtrack object to database, will throw an exception if user already exists.
@@ -220,6 +230,24 @@ public class RealmController {
             Log.e("Calc", String.valueOf(dist));
         }
         return dist;
+    }
+
+    public void saveDiaryEntry(final DiaryData _entry) {
+        try {
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    getLoggedInUser().addDiaryEntry(_entry);
+                }
+            });
+        }
+        catch(Exception e){
+            Log.e("Realm Exception", "Diary ID already exists, save aborted");
+        }
+    }
+
+    public RealmList<DiaryData> getDiary(User _user){
+        return _user.getDiary();
     }
 
     //As the controller handles all the database transactions it needs to be able to close its private realm reference.

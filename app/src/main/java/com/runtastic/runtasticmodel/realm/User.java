@@ -26,6 +26,8 @@ public class User extends RealmObject {
 
     private RealmList<RunTracker> runtracks = new RealmList<>();
 
+    private RealmList<DiaryData> diary = new RealmList<>();
+
     public User(){
         this.uid = 0;
         this.email = "none";
@@ -86,5 +88,22 @@ public class User extends RealmObject {
         else
             runtracks.add(_inTrack);
     }
+
+    protected void addDiaryEntry(DiaryData _entry) {
+        boolean exists = false;
+        for(DiaryData r : diary){
+            if(r.getDid() == _entry.getDid()){
+                exists = true;
+            }
+        }
+
+        if(exists){
+            Log.e("User", "RID already exists, not added");
+        }
+        else
+            diary.add(_entry);
+    }
     protected RealmList<RunTracker> getRuntracks() { return runtracks; }
+
+    protected RealmList<DiaryData> getDiary() { return diary; }
 }
