@@ -46,13 +46,6 @@ public class StartFragment extends Fragment {
 
         rControl.realmOpen();
 
-        //Testing waypoint saving
-        RunTracker rt = rControl.getLastRunTrack();
-        RealmList<LatLong> list = rt.getCoords();
-        for(LatLong x : list){
-            Log.e("Waypoint", x.getLatitude() + ":" + x.getLongitude());
-        }
-
         TextView distance = myView.findViewById(R.id.textView15);
         TextView calories = myView.findViewById(R.id.textView16);
         TextView time = myView.findViewById(R.id.textView17);

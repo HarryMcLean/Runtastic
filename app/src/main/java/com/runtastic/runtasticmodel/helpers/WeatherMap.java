@@ -99,7 +99,6 @@ public class WeatherMap {
                 if(data!=null){
                     Gson gson = new Gson();
                     Weather weather = gson.fromJson(data.toString(), Weather.class);
-                    Log.e("Weather", data.toString());
                     minTempView.setText("Max Temp: " + String.valueOf(weather.getMinTemp()));
                     maxTempView.setText("Min Temp: " + String.valueOf(weather.getMaxTemp()));
                     cityView.setText(weather.getName());
