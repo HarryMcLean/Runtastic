@@ -3,6 +3,7 @@ package com.runtastic.runtasticmodel.activities;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -86,13 +87,13 @@ public class SideNavBar extends AppCompatActivity implements NavigationView.OnNa
                 break;
             case R.id.nav_diary:
                 fragment = getSupportFragmentManager().findFragmentByTag(DIARY_TAG);
-                if(fragment != null){
-                    displaySelectedScreen(fragment, DIARY_TAG);
-                }
-                else
-                {
+                //if(fragment != null){
+                //    displaySelectedScreen(fragment, DIARY_TAG);
+                //}
+                //else
+                //{
                     displaySelectedScreen(new DiaryFragment(), DIARY_TAG);
-                }
+                //}
                 break;
             case R.id.nav_calendar:
                 fragment = getSupportFragmentManager().findFragmentByTag(CALENDAR_TAG);
@@ -138,6 +139,7 @@ public class SideNavBar extends AppCompatActivity implements NavigationView.OnNa
         getSupportFragmentManager().beginTransaction().
         replace(R.id.fragment_container, fragment, tag)
                 .addToBackStack(null).commit();
+
     }
 
     @Override
