@@ -19,4 +19,6 @@ public class CalendarFragment extends Fragment {
         myView = inflater.inflate(R.layout.calendar_layout,container,false);
         return myView;
     }
+
+
 }
