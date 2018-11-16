@@ -27,6 +27,7 @@ public class RunTracker extends RealmObject {
 
     private String date;
     private RealmList<LatLong> coords = new RealmList<>();
+    private RealmList<Double> splits = new RealmList<>();
 
     @LinkingObjects("runtracks")
     private final RealmResults<User> user = null;
@@ -55,6 +56,8 @@ public class RunTracker extends RealmObject {
     public void addCoord(LatLong _coord) { coords.add(_coord); }
     public void addCoords(RealmList<LatLong> _coords) { coords = _coords; }
     public RealmList<LatLong> getCoords() { return coords; }
+    public RealmList<Double> getSplits() { return splits; }
+    public void addSplit(Double _splitTime) { splits.add(_splitTime); }
 
     public RunTracker(){
         timeTaken = 0;

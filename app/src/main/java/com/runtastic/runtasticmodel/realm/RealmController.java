@@ -259,4 +259,5 @@ public class RealmController {
     public void realmOpen() {
         realm = realm.getDefaultInstance();
     }
+
 }

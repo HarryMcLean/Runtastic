@@ -71,6 +71,10 @@ public class WorkoutFragment extends Fragment implements OnMapReadyCallback {
     private TextView timeText;
     private TextView speedText;
 
+    private int splitCount;
+    private double splitStartTime;
+    private double splitTime;
+
     private LatLong lastLatLng = null;
 
     View myView;
@@ -112,6 +116,8 @@ public class WorkoutFragment extends Fragment implements OnMapReadyCallback {
                     startTime = Calendar.getInstance().getTime();
                     workingOut = true;
                     button.setText("Stop");
+                    splitCount = 0;
+                    splitStartTime = Calendar.getInstance().getTime().getTime();
                 }
                 else
                 {
@@ -121,6 +127,7 @@ public class WorkoutFragment extends Fragment implements OnMapReadyCallback {
                     double timeDif = endTime.getTime() - startTime.getTime();
                     Log.e("Time Dif", String.valueOf(timeDif / 1000D));
                     rControl.getCurrentTrack().setTimeTaken(timeDif / 1000D);
+                    rControl.getCurrentTrack().setAverageSpeed(calcSpeed(rControl.calcDistanceRun(), timeDif / 1000D));
                     rControl.saveRunTrack(rControl.getCurrentTrack());
                     workingOut = false;
                     button.setText("Start");
@@ -211,6 +218,7 @@ public class WorkoutFragment extends Fragment implements OnMapReadyCallback {
                                         latlong.getLongitude())).width(5).color(Color.RED));
 
                             }
+                            checkSplit(endTime.getTime(), rControl.calcDistanceRun());
                             lastLatLng = latlong;
                         }
                     }
@@ -277,4 +285,15 @@ public class WorkoutFragment extends Fragment implements OnMapReadyCallback {
         return minutes / _distance;
     }
 
+    private void checkSplit(double _endTime, double _distance){
+        //convert distance to round number
+        int dist = (int) _distance;
+        if(dist > splitCount){
+            Log.e("Split", "New Split");
+            splitCount++;
+            splitTime = _endTime - splitStartTime;
+            splitStartTime = _endTime;
+            rControl.getCurrentTrack().addSplit(splitTime);
+        }
+    }
 }

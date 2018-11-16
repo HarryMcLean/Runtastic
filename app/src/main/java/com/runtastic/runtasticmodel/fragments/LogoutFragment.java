@@ -25,7 +25,7 @@ import java.util.List;
 public class LogoutFragment extends Fragment {
 
     View myView;
-    private RealmController rControl;
+    private RealmController rControl = new RealmController();
 
     private WeatherMap weather = new WeatherMap();
 
@@ -55,6 +55,10 @@ public class LogoutFragment extends Fragment {
         //Beginning of code to handle log in details.
         //Link to the button on the view
         final Button button = myView.findViewById(R.id.button4);
+
+        for(int x = 0; x < rControl.getLastRunTrack().getSplits().size(); x++){
+            Log.e("TAG", String.valueOf(rControl.getLastRunTrack().getSplits().get(x)));
+        }
 
         //click listener started.
         button.setOnClickListener(new View.OnClickListener() {
