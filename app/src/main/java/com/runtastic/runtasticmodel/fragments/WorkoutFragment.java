@@ -69,6 +69,8 @@ public class WorkoutFragment extends Fragment implements OnMapReadyCallback {
 
     private TextView distText;
     private TextView timeText;
+    private TextView speedText;
+
     private LatLong lastLatLng = null;
 
     View myView;
@@ -97,6 +99,7 @@ public class WorkoutFragment extends Fragment implements OnMapReadyCallback {
 
         distText = myView.findViewById(R.id.textView19);
         timeText = myView.findViewById(R.id.textView20);
+        speedText = myView.findViewById(R.id.textView33);
 
         final Button button = myView.findViewById(R.id.button5);
 
@@ -200,6 +203,7 @@ public class WorkoutFragment extends Fragment implements OnMapReadyCallback {
                             df.setRoundingMode(RoundingMode.CEILING);
                             timeText.setText(String.valueOf(timeDif / 1000D) + " sec");
                             distText.setText(df.format(rControl.calcDistanceRun()) + " km");
+                            speedText.setText(df.format(calcSpeed(rControl.calcDistanceRun(), timeDif / 1000D)) + " min/km");
                             if(lastLatLng != null) {
 
                                 Polyline line = mMap.addPolyline(new PolylineOptions().add(new LatLng(lastLatLng.getLatitude(),
@@ -266,6 +270,11 @@ public class WorkoutFragment extends Fragment implements OnMapReadyCallback {
             Log.e("Test", "GPS updates stopped");
             getActivity().unregisterReceiver(broadcastReceiver);
         }
+    }
+
+    public double calcSpeed(double _distance, double _time){
+        double minutes = _time / 60;
+        return minutes / _distance;
     }
 
 }

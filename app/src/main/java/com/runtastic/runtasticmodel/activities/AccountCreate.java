@@ -128,7 +128,6 @@ public class AccountCreate extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day){
                 month += 1;
-                day += 1;
                 mDisplayDate.setText(day + "/" + month + "/" + year);
             }
         };

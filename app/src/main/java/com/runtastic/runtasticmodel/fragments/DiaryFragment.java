@@ -15,17 +15,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.regex.Pattern;
 
 
 import com.runtastic.runtasticmodel.R;
-import com.runtastic.runtasticmodel.activities.SideNavBar;
-import com.runtastic.runtasticmodel.helpers.DiaryRecyclerAdapter;
 import com.runtastic.runtasticmodel.realm.RealmController;
 
 import sun.bob.mcalendarview.MCalendarView;
+import sun.bob.mcalendarview.listeners.OnDateClickListener;
 import sun.bob.mcalendarview.vo.DateData;
 
 public class DiaryFragment extends Fragment {
@@ -48,6 +48,29 @@ public class DiaryFragment extends Fragment {
 
         final Button button = myView.findViewById(R.id.newEntryButton);
         final FragmentManager fragMan = getFragmentManager();
+
+        for(int x = 0; x < rControl.getDiary(rControl.getLoggedInUser()).size(); x++){
+            calendar.markDate(rControl.getDiary(rControl.getLoggedInUser()).get(x).toDateData());
+        }
+
+        calendar.setOnDateClickListener(new OnDateClickListener() {
+            @Override
+            public void onDateClick(View view, DateData date) {
+                String desc = null;
+                String time = null;
+                for(int x = 0; x < rControl.getDiary(rControl.getLoggedInUser()).size(); x++){
+                    if(rControl.getDiary(rControl.getLoggedInUser()).get(x).matchDate(date)){
+                        desc = rControl.getDiary(rControl.getLoggedInUser()).get(x).getDetails();
+                        time = rControl.getDiary(rControl.getLoggedInUser()).get(x).getStartTime();
+                    }
+                }
+                if(desc != null) {
+
+
+                    Toast.makeText(getActivity(), time + " " + desc, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

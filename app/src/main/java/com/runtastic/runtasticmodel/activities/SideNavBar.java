@@ -97,13 +97,13 @@ public class SideNavBar extends AppCompatActivity implements NavigationView.OnNa
                 break;
             case R.id.nav_calendar:
                 fragment = getSupportFragmentManager().findFragmentByTag(CALENDAR_TAG);
-                if(fragment != null){
-                    displaySelectedScreen(fragment, CALENDAR_TAG);
-                }
-                else
-                {
+                //if(fragment != null){
+                //    displaySelectedScreen(fragment, CALENDAR_TAG);
+                //}
+                //else
+                //{
                     displaySelectedScreen(new CalendarFragment(), CALENDAR_TAG);
-                }
+                //}
                 break;
             case R.id.nav_stopwatch:
                 fragment = getSupportFragmentManager().findFragmentByTag(STOPWATCH_TAG);
