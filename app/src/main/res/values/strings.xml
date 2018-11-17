@@ -5,4 +5,17 @@
     <string name="email_not_valid">Not a valid email address.</string>
     <string name="not_valid_date">Not a date.</string>
     <string name="timerStart">00:00:00:000</string>
+
+    <!-- Conditions statistics -->
+    <string name="min_temp">Min. Temp</string>
+    <string name="max_temp">Max. Temp</string>
+    <string name="city">City</string>
+    <string name="curr_temp">Current Temp</string>
+
+    <!-- Speed statistics -->
+    <string name="total_time">Total Time</string>
+    <string name="fastest_speed">Fastest Speed</string>
+    <string name="distance">Distance</string>
+    <string name="calories">Calories</string>
+    <string name="speed">Avg. Speed</string>
 </resources>

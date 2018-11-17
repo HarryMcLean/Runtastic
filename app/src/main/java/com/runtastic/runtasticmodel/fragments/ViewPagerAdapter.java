@@ -2,11 +2,7 @@ package com.runtastic.runtasticmodel.fragments;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
-
-import com.runtastic.runtasticmodel.fragments.ActivityStatisticsElevation;
-import com.runtastic.runtasticmodel.fragments.StatisticsFragment;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -26,14 +22,16 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new StatisticsFragment();
             case 1:
-                return new ActivityStatisticsElevation();
+                return new ActivityStatisticsConditions();
+            case 2:
+                return new ActivityStatisticsRoute();
         }
         return null;
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
 //    @Override

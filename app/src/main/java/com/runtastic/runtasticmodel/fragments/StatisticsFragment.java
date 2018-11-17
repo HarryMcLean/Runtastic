@@ -1,5 +1,9 @@
 package com.runtastic.runtasticmodel.fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,9 +12,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
@@ -19,7 +25,11 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.runtastic.runtasticmodel.R;
+import com.runtastic.runtasticmodel.helpers.WeatherMap;
+import com.runtastic.runtasticmodel.realm.RealmController;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -30,95 +40,48 @@ import java.util.Date;
 
 public class StatisticsFragment extends Fragment {
 
-    View myView;
-    BarChart barChart;
-    ArrayList<String> dates;
-    Random random;
-    ArrayList<BarEntry> barEntries;
+    View myView = null;
+
+    private RealmController rControl = new RealmController();
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         myView = inflater.inflate(R.layout.statistics_layout, container, false);
-
         ViewPager viewPager = myView.findViewById(R.id.view_pager);
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setCurrentItem(0);
 
-        barChart = (BarChart) myView.findViewById(R.id.bargraph);
-
-        createRandomBarGraph("2016/05/05", "2016/06/01");
-
-//        ViewPager viewPager = myView.findViewById(R.id.view_pager);
-//        viewPager.setAdapter(new ViewPagerAdapter(getFragmentManager()));
-//
 //        TabLayout tabLayout = myView.findViewById(R.id.tab_layout);
 //        tabLayout.setupWithViewPager(viewPager);
+
 
         return myView;
     }
 
-    public void createRandomBarGraph(String Date1, String Date2) {
+    @Override
+    public void onResume() {
+        super.onResume();
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        rControl.realmOpen();
 
-        try {
-            Date date1 = simpleDateFormat.parse(Date1);
-            Date date2 = simpleDateFormat.parse(Date2);
+        TextView distance = myView.findViewById(R.id.distance);
+        TextView time = myView.findViewById(R.id.totalTime);
+        TextView calories = myView.findViewById(R.id.calories);
+        TextView speed = myView.findViewById(R.id.speed);
+        TextView fastestSpeed = myView.findViewById(R.id.fastestSpeed);
 
-            Calendar mDate1 = Calendar.getInstance();
-            Calendar mDate2 = Calendar.getInstance();
-            mDate1.clear();
-            mDate2.clear();
+        DecimalFormat df = new DecimalFormat("#.##");
+        df.setRoundingMode(RoundingMode.CEILING);
 
-            mDate1.setTime(date1);
-            mDate2.setTime(date2);
+        distance.setText(df.format(rControl.getLastRunTrack().getDistance()) + "km");
+        time.setText(df.format(rControl.getLastRunTrack().getTimeTaken()));
+        calories.setText(df.format(rControl.getLastRunTrack().getEstimatedCalories()));
+        speed.setText(df.format(rControl.getLastRunTrack().getAverageSpeed()));
+        fastestSpeed.setText(df.format(rControl.getLastRunTrack().getMaxSpeed()));
 
-            dates = new ArrayList<>();
-            dates = getList(mDate1, mDate2);
-
-            barEntries = new ArrayList<>();
-            float max = 0f;
-            float value = 0f;
-            random = new Random();
-            for (int j = 0; j < dates.size(); j++) {
-                max = 100f;
-                value = random.nextFloat()*max;
-                barEntries.add(new BarEntry(value, j));
-            }
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        BarDataSet barDataSet = new BarDataSet(barEntries, "Dates");
-        BarData barData = new BarData(barDataSet);
-        barChart.setData(barData);
-        Description desc = new Description();
-        desc.setText("Your Splits");
-        barChart.setDescription(desc);
-    }
-
-    public ArrayList<String> getList(Calendar startDate, Calendar endDate) {
-        ArrayList<String> list = new ArrayList<>();
-        while(startDate.compareTo(endDate) <= 0) {
-            list.add(getDate(startDate));
-            startDate.add(Calendar.DAY_OF_MONTH, 1);
-        }
-        return list;
-    }
-
-    public String getDate(Calendar cld) {
-        String currDate = cld.get(Calendar.YEAR) + "/" + (cld.get(Calendar.MONTH) + 1) + "/" + cld.get(Calendar.DAY_OF_MONTH);
-
-        try {
-            Date date = new SimpleDateFormat("yyyy/MM/dd").parse(currDate);
-            currDate = new SimpleDateFormat("yyyy/MM/dd").format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return currDate;
+        rControl.realmClose();
     }
 }
