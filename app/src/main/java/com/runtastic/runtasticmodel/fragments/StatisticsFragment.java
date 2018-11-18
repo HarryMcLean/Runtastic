@@ -76,11 +76,11 @@ public class StatisticsFragment extends Fragment {
         DecimalFormat df = new DecimalFormat("#.##");
         df.setRoundingMode(RoundingMode.CEILING);
 
-        distance.setText(df.format(rControl.getLastRunTrack().getDistance()) + "km");
-        time.setText(df.format(rControl.getLastRunTrack().getTimeTaken()));
-        calories.setText(df.format(rControl.getLastRunTrack().getEstimatedCalories()));
-        speed.setText(df.format(rControl.getLastRunTrack().getAverageSpeed()));
-        fastestSpeed.setText(df.format(rControl.getLastRunTrack().getMaxSpeed()));
+        distance.setText(df.format(rControl.getLastRunTrack().getDistance()) + " sec");
+        time.setText(df.format(rControl.getLastRunTrack().getTimeTaken()) + " min");
+        calories.setText(df.format(rControl.getLastRunTrack().getEstimatedCalories()) + " kCal");
+        speed.setText(df.format(rControl.getLastRunTrack().getAverageSpeed()) + " min/km");
+        fastestSpeed.setText(df.format(rControl.getLastRunTrack().getMaxSpeed()) + " min/km");
 
         rControl.realmClose();
     }

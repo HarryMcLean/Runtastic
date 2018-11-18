@@ -12,7 +12,8 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
 //        childFragments = new Fragment[] {
 //                new StatisticsFragment(),
-//                new ActivityStatisticsElevation()
+//                new ActivityStatisticsConditions(),
+//                new ActivityStatisticsRoute()
 //        };
     }
 
@@ -27,6 +28,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                 return new ActivityStatisticsRoute();
         }
         return null;
+//        return childFragments[position];
     }
 
     @Override
