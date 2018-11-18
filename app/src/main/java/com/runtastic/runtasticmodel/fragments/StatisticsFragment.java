@@ -47,12 +47,12 @@ public class StatisticsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
+        //super.onCreateView(inflater, container, savedInstanceState);
         myView = inflater.inflate(R.layout.statistics_layout, container, false);
-        ViewPager viewPager = myView.findViewById(R.id.view_pager);
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getFragmentManager());
-        viewPager.setAdapter(viewPagerAdapter);
-        viewPager.setCurrentItem(0);
+        //ViewPager viewPager = myView.findViewById(R.id.view_pager);
+        //ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getFragmentManager());
+        //viewPager.setAdapter(viewPagerAdapter);
+        //viewPager.setCurrentItem(0);
 
 //        TabLayout tabLayout = myView.findViewById(R.id.tab_layout);
 //        tabLayout.setupWithViewPager(viewPager);

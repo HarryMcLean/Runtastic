@@ -19,6 +19,7 @@ import com.runtastic.runtasticmodel.fragments.DiaryFragment;
 import com.runtastic.runtasticmodel.fragments.LogoutFragment;
 import com.runtastic.runtasticmodel.fragments.StartFragment;
 import com.runtastic.runtasticmodel.fragments.StatisticsFragment;
+import com.runtastic.runtasticmodel.fragments.StatisticsPagerFragment;
 import com.runtastic.runtasticmodel.fragments.StopwatchFragment;
 import com.runtastic.runtasticmodel.fragments.WorkoutFragment;
 
@@ -76,17 +77,17 @@ public class SideNavBar extends AppCompatActivity implements NavigationView.OnNa
                 }
                 break;
             case R.id.nav_statistics:
-                fragment = getSupportFragmentManager().findFragmentByTag(STATISTICS_TAG);
-                if(fragment != null){
-                    displaySelectedScreen(fragment, STATISTICS_TAG);
-                }
-                else
-                {
-                    displaySelectedScreen(new StatisticsFragment(), STATISTICS_TAG);
-                }
+                //fragment = getSupportFragmentManager().findFragmentByTag(STATISTICS_TAG);
+                //if(fragment != null){
+                //    displaySelectedScreen(fragment, STATISTICS_TAG);
+                //}
+                //else
+                //{
+                    displaySelectedScreen(new StatisticsPagerFragment(), STATISTICS_TAG);
+                //}
                 break;
             case R.id.nav_diary:
-                fragment = getSupportFragmentManager().findFragmentByTag(DIARY_TAG);
+                //fragment = getSupportFragmentManager().findFragmentByTag(DIARY_TAG);
                 //if(fragment != null){
                 //    displaySelectedScreen(fragment, DIARY_TAG);
                 //}
@@ -96,7 +97,7 @@ public class SideNavBar extends AppCompatActivity implements NavigationView.OnNa
                 //}
                 break;
             case R.id.nav_calendar:
-                fragment = getSupportFragmentManager().findFragmentByTag(CALENDAR_TAG);
+                //fragment = getSupportFragmentManager().findFragmentByTag(CALENDAR_TAG);
                 //if(fragment != null){
                 //    displaySelectedScreen(fragment, CALENDAR_TAG);
                 //}

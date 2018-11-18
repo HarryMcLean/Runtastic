@@ -37,7 +37,6 @@ public class ActivityStatisticsRoute extends Fragment implements OnMapReadyCallb
     private View view;
     private RealmController rControl = new RealmController();
     private GoogleMap mMap;
-    private LatLong lastLatLng = null;
     private static final String TAG = "MapFragment";
     private Boolean mLocationPermissionsGranted = false;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
@@ -70,14 +69,6 @@ public class ActivityStatisticsRoute extends Fragment implements OnMapReadyCallb
         mapView.onResume();
         mapView.getMapAsync(this);
 
-        if (lastLatLng != null) {
-            for (int i = 0; i < rControl.getRunTracks(rControl.getLoggedInUser()).size(); i++) {
-                LatLong latLong = rControl.getLastRunTrack().getCoords().get(i);
-                Polyline polyline = mMap.addPolyline(new PolylineOptions().add(new LatLng(lastLatLng.getLatitude(),
-                        lastLatLng.getLongitude()), new LatLng(latLong.getLatitude(),
-                        latLong.getLongitude())).width(5).color(Color.RED));
-            }
-        }
 
         return view;
     }
@@ -121,6 +112,20 @@ public class ActivityStatisticsRoute extends Fragment implements OnMapReadyCallb
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        for (int i = 0; i < rControl.getLastRunTrack().getCoords().size(); i++) {
+            if(i + 1 < rControl.getLastRunTrack().getCoords().size()) {
+                LatLong latLong = rControl.getLastRunTrack().getCoords().get(i);
+                LatLong nextLatLong = rControl.getLastRunTrack().getCoords().get(i + 1);
+                Polyline polyline = mMap.addPolyline(new PolylineOptions().add(new LatLng(nextLatLong.getLatitude(),
+                        nextLatLong.getLongitude()), new LatLng(latLong.getLatitude(),
+                        latLong.getLongitude())).width(5).color(Color.RED));
+                moveCamera(new LatLng(latLong.getLatitude(),
+                                latLong.getLongitude()),
+                        DEFAULT_ZOOM);
+            }
+        }
 
     }
 
